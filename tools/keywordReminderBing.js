@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-必应源
 // @id    1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBing.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -18,6 +18,13 @@ function isKeywordReminderEnabled() {
 // 检查快捷翻译是否启用
 function isQuickTranslationEnabled() {
     return localStorage.getItem('quickTranslation') !== 'off' && isKeywordReminderEnabled();
+}
+
+function escapeHTML(str) {
+    if (!str || typeof str !== 'string') return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 function keywordReminder() {
@@ -38,12 +45,19 @@ function keywordReminder() {
                 if (data && data.AS && data.AS.Results) {
                     // 添加翻译选项
                     if (isQuickTranslationEnabled()) {
-                        $('#keywords').append(`<div class="keyword" data-id="translate"><i class='iconfont icon-fanyi'></i>${keyword}</div>`);
+                        const translateDiv = $('<div class="keyword" data-id="translate"></div>');
+                        translateDiv.append('<i class="iconfont icon-fanyi"></i>');
+                        translateDiv.append(document.createTextNode(keyword));
+                        $('#keywords').append(translateDiv);
                     }
                     data.AS.Results.forEach(function (result) {
                         if (result.Suggests) {
                             result.Suggests.forEach(function (suggest) {
-                                $('#keywords').append(`<div class="keyword" data-id="${suggest.Sk}"><i class='iconfont icon-sousuo'></i>${suggest.Txt}</div>`);
+                                const keywordDiv = $('<div class="keyword"></div>');
+                                keywordDiv.attr('data-id', suggest.Sk);
+                                keywordDiv.append('<i class="iconfont icon-sousuo"></i>');
+                                keywordDiv.append(document.createTextNode(suggest.Txt));
+                                $('#keywords').append(keywordDiv);
                             });
                         }
                     });

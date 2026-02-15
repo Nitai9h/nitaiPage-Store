@@ -1,18 +1,19 @@
 // ==Npplication==
 // @name    简体中文
 // @id    1754240200155_61322c74-6fe7-436f-a824-e94e594bfa17
-// @version    1.0.2
+// @version    1.0.3
 // @type    translate
 // @translates     zh-CN
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-zh-CN.js
 // @description    设置全局中文
 // @author    Nitai
-// @icon    https://nitai-images.pages.dev/nitaiPage/translateToEnglish.svg
+// @icon    https://nitai-images.pages.dev/nitaiPage/zh-CN.svg
 // @setting    false
 // ==/Npplication==
 localStorage.setItem('autoInstallTranslationGlobal', 'zh-CN');
 
 const translateEntriesGlobal = {
+    "@global:init-message": "3 秒将自动刷新页面完成初始化",
     "@global:bg-video": "您的浏览器不支持视频播放",
     "@global:shortcut": "捷径",
     "@global:nitaipage": "拟态起始页",
@@ -24,8 +25,8 @@ const translateEntriesGlobal = {
     "@global:toast-close": "关闭",
     "@global:toast-ok": "确认",
     "@global:toast-refresh": "刷新",
-    "@global:toast-cancel": "取消",
     "@global:toast-later": "稍后",
+    "@global:toast-cancel": "取消",
     "@global:toast-switch-success": "切换成功",
     "@global:toast-save-success": "保存成功",
     "@global:toast-upload-success": "上传成功",
@@ -213,6 +214,7 @@ const translateEntriesGlobal = {
     "@customStyle:setting-custom-css-style-reset-success": "重置成功",
 
     "@i18n:setting-auto-install-translation-plugin": "自动安装翻译插件",
+    "@i18n:global-tanslate-install-success": "全局翻译安装成功",
     "@i18n:setting-auto-install-translation-plugin-desc": "在安装新的插件时，自动安装对应的翻译",
     "@i18n:setting-auto-install-translation-plugin-lang": "语言默认为安装的全局翻译插件所使用的语言",
     "@i18n:setting-auto-install-translation-plugin-need-uninstall": "注意：需要更换语言时需手动卸载",
@@ -253,7 +255,7 @@ const translateEntriesGlobal = {
     "@npplication:version": "版本",
     "@npplication:author": "作者",
     "@npplication:source": "来源",
-    "@npplication:translates": "翻译",
+    "@npplication:description": "描述",
     "@npplication:screenshots": "截图",
     "@npplication:has-new-version-desc": "有新版本可用",
     "@npplication:installed-version-desc": "已更新至版本",

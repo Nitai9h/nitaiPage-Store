@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-百度源
 // @id    1754202777496_85ffc71b-ab7f-47e8-bc43-9276e05de0f6
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBaidu.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -18,6 +18,13 @@ function isKeywordReminderEnabled() {
 // 检查快捷翻译是否启用
 function isQuickTranslationEnabled() {
     return localStorage.getItem('quickTranslation') !== 'off' && isKeywordReminderEnabled();
+}
+
+function escapeHTML(str) {
+    if (!str || typeof str !== 'string') return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 function keywordReminder() {
@@ -37,10 +44,17 @@ function keywordReminder() {
                 $("#keywords").empty().show();
                 // 添加翻译选项
                 if (isQuickTranslationEnabled()) {
-                    $('#keywords').append(`<div class="keyword" data-id="translate"><i class='iconfont icon-fanyi'></i>${keyword}</div>`);
+                    const translateDiv = $('<div class="keyword" data-id="translate"></div>');
+                    translateDiv.append('<i class="iconfont icon-fanyi"></i>');
+                    translateDiv.append(document.createTextNode(keyword));
+                    $('#keywords').append(translateDiv);
                 }
                 $.each(data.s, function (i, val) {
-                    $('#keywords').append(`<div class="keyword" data-id="${i + 1}"><i class='iconfont icon-sousuo'></i>${val}</div>`);
+                    const keywordDiv = $('<div class="keyword"></div>');
+                    keywordDiv.attr('data-id', i + 1);
+                    keywordDiv.append('<i class="iconfont icon-sousuo"></i>');
+                    keywordDiv.append(document.createTextNode(val));
+                    $('#keywords').append(keywordDiv);
                 });
                 $("#keywords").attr("data-length", data.s["length"]);
                 $(".keyword").click(function () {
