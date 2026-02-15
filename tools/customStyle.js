@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    自定义样式
 // @id    customStyle
-// @version    1.1.1
+// @version    1.1.2
 // @updateUrl    https://nfdb.nitai.us.kg/customStyle.js
 // @description    用户可以自定义CSS
 // @author    Nitai
@@ -119,12 +119,18 @@ function createCustomStyleSetting() {
 function sanitizeCSS(cssText) {
     if (!cssText || typeof cssText !== 'string') return '';
 
+    const MAX_CSS_LENGTH = 100000;
+    if (cssText.length > MAX_CSS_LENGTH) return '';
+
     let sanitized = cssText;
 
     const dangerousPatterns = [
         /\bexpression\s*\(/gi,
         /javascript:/gi,
+        /vbscript:/gi,
         /data:\s*text\/html/gi,
+        /data:\s*text\/javascript/gi,
+        /data:\s*application\/javascript/gi,
         /data:\s*image\/svg\+xml/gi,
         /@import\s+/gi,
         /behavior:\s*url\(/gi,
@@ -134,7 +140,24 @@ function sanitizeCSS(cssText) {
         /@-moz-keyframes/gi,
         /@keyframes\s*\{[^}]*\}/gi,
         /@-webkit-keyframes\s*\{[^}]*\}/gi,
-        /@-moz-keyframes\s*\{[^}]*\}/gi
+        /@-moz-keyframes\s*\{[^}]*\}/gi,
+        /@font-face\s*\{[^}]*\}/gi,
+        /<script[^>]*>.*?<\/script>/gis,
+        /<iframe[^>]*>.*?<\/iframe>/gis,
+        /<object[^>]*>.*?<\/object>/gis,
+        /<embed[^>]*>.*?<\/embed>/gis,
+        /on\w+\s*=/gi,
+        /eval\s*\(/gi,
+        /setTimeout\s*\(/gi,
+        /setInterval\s*\(/gi,
+        /Function\s*\(/gi,
+        /document\.(write|writeln)/gi,
+        /window\.location/gi,
+        /\.innerHTML\s*=/gi,
+        /\.outerHTML\s*=/gi,
+        /document\.cookie/gi,
+        /localStorage\.getItem/gi,
+        /sessionStorage\.getItem/gi
     ];
 
     dangerousPatterns.forEach(pattern => {
@@ -170,9 +193,11 @@ function sanitizeCSS(cssText) {
 function applyCustomCSS(cssText) {
     removeCustomCSS();
 
+    if (!cssText || typeof cssText !== 'string') return;
+
     const sanitizedCSS = sanitizeCSS(cssText);
 
-    if (!sanitizedCSS) return;
+    if (!sanitizedCSS || sanitizedCSS.trim() === '') return;
 
     const styleElement = document.createElement('style');
     styleElement.id = 'customUserStyle';
@@ -190,12 +215,21 @@ function removeCustomCSS() {
 }
 
 (function () {
-    // 等待插件设置创建完成
+    const validateLocalStorageCSS = function (css) {
+        if (!css || typeof css !== 'string') return null;
+
+        const sanitized = sanitizeCSS(css);
+        if (!sanitized || sanitized.trim() === '') return null;
+
+        return sanitized;
+    };
+
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createCustomStyleSetting();
 
         const savedCSSForInput = localStorage.getItem('customCSS');
-        if (savedCSSForInput) {
+        const validatedCSSForInput = validateLocalStorageCSS(savedCSSForInput);
+        if (validatedCSSForInput) {
             $('#customCSS').val(savedCSSForInput);
         }
 
@@ -222,8 +256,9 @@ function removeCustomCSS() {
 
     $(document).ready(function () {
         const savedCSS = localStorage.getItem('customCSS');
-        if (savedCSS) {
-            applyCustomCSS(savedCSS);
+        const validatedCSS = validateLocalStorageCSS(savedCSS);
+        if (validatedCSS) {
+            applyCustomCSS(validatedCSS);
         }
     });
 })();

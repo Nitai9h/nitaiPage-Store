@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-必应源
 // @id    1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0
-// @version    1.0.4
+// @version    1.0.5
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBing.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -28,62 +28,74 @@ function escapeHTML(str) {
 }
 
 function keywordReminder() {
-    // 检查搜索建议是否启用
     if (!isKeywordReminderEnabled()) {
         return;
     }
     var keyword = $(".wd").val();
-    if (keyword != "") {
-        $.ajax({
-            url: 'https://api.bing.com/qsonhs.aspx?type=cb&q=' + keyword,
-            dataType: 'jsonp',
-            jsonp: 'cb', //回调函数的参数名(键值)key
-            success: function (data) {
-                // 获取宽度
-                $("#keywords").css("width", $('.sou').width());
-                $("#keywords").empty().show();
-                if (data && data.AS && data.AS.Results) {
-                    // 添加翻译选项
-                    if (isQuickTranslationEnabled()) {
-                        const translateDiv = $('<div class="keyword" data-id="translate"></div>');
-                        translateDiv.append('<i class="iconfont icon-fanyi"></i>');
-                        translateDiv.append(document.createTextNode(keyword));
-                        $('#keywords').append(translateDiv);
-                    }
-                    data.AS.Results.forEach(function (result) {
-                        if (result.Suggests) {
-                            result.Suggests.forEach(function (suggest) {
-                                const keywordDiv = $('<div class="keyword"></div>');
-                                keywordDiv.attr('data-id', suggest.Sk);
-                                keywordDiv.append('<i class="iconfont icon-sousuo"></i>');
-                                keywordDiv.append(document.createTextNode(suggest.Txt));
-                                $('#keywords').append(keywordDiv);
-                            });
-                        }
-                    });
-                    $("#keywords").attr("data-length", data.AS.Results.reduce((total, result) => total + (result.Suggests ? result.Suggests.length : 0), 0));
-                }
-                $(".keyword").click(function () {
-                    var keywordId = $(this).data('id');
-                    if (keywordId === 'translate') {
-                        // 处理翻译逻辑
-                        // 使用Bing源
-                        window.open('https://www.bing.com/translator/?text=' + encodeURIComponent($(".wd").val()), '_blank');
-                    } else {
-                        $(".wd").val($(this).text());
-                        $("#search-submit").click();
-                    }
-                });
-            },
-            error: function () {
-                $("#keywords").empty().show();
-                $("#keywords").hide();
-            }
-        })
-    } else {
+
+    if (!keyword || typeof keyword !== 'string') {
         $("#keywords").empty().show();
         $("#keywords").hide();
+        return;
     }
+
+    keyword = keyword.trim();
+    if (keyword === "") {
+        $("#keywords").empty().show();
+        $("#keywords").hide();
+        return;
+    }
+
+    if (keyword.length > 500) {
+        $("#keywords").empty().show();
+        $("#keywords").hide();
+        return;
+    }
+
+    $.ajax({
+        url: 'https://api.bing.com/qsonhs.aspx?type=cb&q=' + encodeURIComponent(keyword),
+        dataType: 'jsonp',
+        jsonp: 'cb',
+        success: function (data) {
+            $("#keywords").css("width", $('.sou').width());
+            $("#keywords").empty().show();
+            if (data && data.AS && data.AS.Results) {
+                if (isQuickTranslationEnabled()) {
+                    const translateDiv = $('<div class="keyword" data-id="translate"></div>');
+                    translateDiv.append('<i class="iconfont icon-fanyi"></i>');
+                    translateDiv.append(document.createTextNode(escapeHTML(keyword)));
+                    $('#keywords').append(translateDiv);
+                }
+                data.AS.Results.forEach(function (result) {
+                    if (result.Suggests) {
+                        result.Suggests.forEach(function (suggest) {
+                            if (suggest.Txt && typeof suggest.Txt === 'string') {
+                                const keywordDiv = $('<div class="keyword"></div>');
+                                keywordDiv.attr('data-id', escapeHTML(String(suggest.Sk || '')));
+                                keywordDiv.append('<i class="iconfont icon-sousuo"></i>');
+                                keywordDiv.append(document.createTextNode(escapeHTML(suggest.Txt)));
+                                $('#keywords').append(keywordDiv);
+                            }
+                        });
+                    }
+                });
+                $("#keywords").attr("data-length", data.AS.Results.reduce((total, result) => total + (result.Suggests ? result.Suggests.length : 0), 0));
+            }
+            $(".keyword").click(function () {
+                var keywordId = $(this).data('id');
+                if (keywordId === 'translate') {
+                    window.open('https://www.bing.com/translator/?text=' + encodeURIComponent($(".wd").val()), '_blank');
+                } else {
+                    $(".wd").val($(this).text());
+                    $("#search-submit").click();
+                }
+            });
+        },
+        error: function () {
+            $("#keywords").empty().show();
+            $("#keywords").hide();
+        }
+    })
 }
 
 
