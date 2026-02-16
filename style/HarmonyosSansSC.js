@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    HarmonyosSansSC
 // @id    1753976979051_7433f494-d5ea-47aa-a3bf-f7bda52d14ba
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/HarmonyosSansSC.js
 // @description    加载 HarmonyosSansSC
 // @author    Nitai
@@ -53,7 +53,11 @@ function createHarmonyosSansSCFontSetting() {
 }
 
 $(function () {
-    createHarmonyosSansSCFontSetting()
+    // 等待插件设置创建完成后再初始化设置
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createHarmonyosSansSCFontSetting()
+    });
+
     setTimeout(() => {
         const harmonyosSansSCLicenseAgreement = localStorage.getItem('harmonyosSansSCLicenseAgreement') || false;
         if (harmonyosSansSCLicenseAgreement === false) {

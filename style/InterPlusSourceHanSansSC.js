@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    Inter + 思源黑体
 // @id    1754849409807_31e69e43-7593-4348-bdcb-6f2ffb31a29f
-// @version    1.0.1
+// @version    1.0.2
 // @updateUrl    https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC.js
 // @description    西文为 Inter，中文部分 Fallback 回思源黑体
 // @author    Nitai
@@ -50,7 +50,7 @@ $(function () {
 });
 
 // 创建设置
-function createInterPlusSourceHanSansSCFontSetting(){
+function createInterPlusSourceHanSansSCFontSetting() {
     const pluginId = '1754849409807_31e69e43-7593-4348-bdcb-6f2ffb31a29f';
     const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
 
@@ -76,7 +76,11 @@ function createInterPlusSourceHanSansSCFontSetting(){
 }
 
 $(function () {
-    createInterPlusSourceHanSansSCFontSetting()
+    // 等待插件设置创建完成后再初始化设置
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createInterPlusSourceHanSansSCFontSetting()
+    });
+
     setTimeout(() => {
         const InterPlusSourceHanSansSCLicenseAgreement = localStorage.getItem('InterPlusSourceHanSansSCLicenseAgreement') || false;
         if (InterPlusSourceHanSansSCLicenseAgreement === false) {

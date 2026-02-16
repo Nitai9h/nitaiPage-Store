@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    English(US)
 // @id    1771170114075_7db02f1b-4106-427c-a9d7-0128f4e63870
-// @version    1.0.3
+// @version    1.0.4
 // @type    translate
 // @translates     en-US
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-en-US.js
@@ -10,7 +10,7 @@
 // @icon    https://nitai-images.pages.dev/nitaiPage/en-US.svg
 // @setting    false
 // ==/Npplication==
-localStorage.setItem('autoInstallTranslationGlobal', 'zh-CN');
+localStorage.setItem('autoInstallTranslationGlobal', 'en-US');
 
 const translateEntriesGlobal = {
     "@global:init-message": "The page will refresh in 3s to initialization.",
@@ -167,8 +167,8 @@ const translateEntriesGlobal = {
     "@global:time-thu": "Thursday",
     "@global:time-fri": "Friday",
     "@global:time-sat": "Saturday",
-    "@global:time-month": "Month",
-    "@global:time-day": "Day",
+    "@global:time-month": "/",
+    "@global:time-day": " ",
 
     "@global:setting-set-new-wallpaper-add": "Add Wallpaper Item",
     "@global:setting-set-wallpaper-random": "Random Wallpaper",
@@ -297,6 +297,7 @@ const translateEntriesGlobal = {
 // 添加字典
 $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
+        localStorage.setItem('installedTranslationLang', `en-US`);
         window.i18n.addTranslationEntries(translateEntriesGlobal);
     }
 });

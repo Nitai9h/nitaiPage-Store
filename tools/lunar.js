@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    农历显示
 // @id    1753891006224_a75c053a-e545-4679-9316-cee02e3fc2e9
-// @version    1.2.5
+// @version    1.2.6
 // @updateUrl    https://nfdb.nitai.us.kg/lunar.js
 // @description    显示农历日期
 // @author    Nitai
@@ -19,14 +19,9 @@ const lunarScript = document.createElement('script');
 lunarScript.src = 'https://nfdb.nitai.us.kg/lunar.min.js';
 lunarScript.onload = () => {
     lunarLoaded = true;
-    genereateLunarSettings();
     addLunarStyles();
     initLunarDisplay();
-    initLunarSliders();
-    setupSliderListeners();
 };
-
-document.head.appendChild(lunarScript);
 
 // 添加农历日期样式
 function addLunarStyles() {
@@ -337,3 +332,11 @@ function genereateLunarSettings() {
         mainConts.appendChild(lunarSettingDiv);
     }
 }
+
+// 等待插件设置创建完成后再初始化设置
+document.addEventListener('pluginSettingsTemplateReady', function () {
+    document.head.appendChild(lunarScript);
+    genereateLunarSettings();
+    initLunarSliders();
+    setupSliderListeners();
+});

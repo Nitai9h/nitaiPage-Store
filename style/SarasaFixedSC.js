@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    更纱黑体
 // @id    1754217199372_507b8683-e1fe-40a5-8ca3-bf27d536e3a7
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/SarasaFixedSC.js
 // @description    加载更纱黑体
 // @author    Nitai
@@ -55,7 +55,11 @@ function createSarasaFixedSCSetting() {
 }
 
 $(function () {
-    createSarasaFixedSCSetting()
+    // 等待插件设置创建完成后再初始化设置
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createSarasaFixedSCSetting()
+    });
+
     setTimeout(() => {
         const SarasaFixedSCLicenseAgreement = localStorage.getItem('SarasaFixedSCLicenseAgreement') || false;
         if (SarasaFixedSCLicenseAgreement === false) {

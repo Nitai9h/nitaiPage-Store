@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    壁纸切换器
 // @id    1755684063321_c66b7dc7-375f-4ab0-a32d-d1eb9c406bdb
-// @version    1.0.1
+// @version    1.0.2
 // @updateUrl    https://nfdb.nitai.us.kg/wallpaperCycle.js
 // @description    每隔一段时间自动切换下一张壁纸
 // @author    Nitai
@@ -265,8 +265,10 @@ function initWallpaperCycle() {
 
 // 页面加载完成后初始化
 $(function () {
-    createWallpaperCycleSetting();
-    initWallpaperCycle();
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createWallpaperCycleSetting();
+        initWallpaperCycle();
+    });
 
     window.addEventListener('load', function () {
         if (isWallpaperCycleEnabled()) {

@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-百度源
 // @id    1754202777496_85ffc71b-ab7f-47e8-bc43-9276e05de0f6
-// @version    1.0.4
+// @version    1.0.5
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBaidu.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -173,9 +173,6 @@ function createKeywordReminderSetting() {
     }
 }
 
-(function () {
-    // 页面加载完成后初始化设置
-    $(document).ready(function () {
-        createKeywordReminderSetting();
-    });
-})();
+document.addEventListener('pluginSettingsTemplateReady', function () {
+    createKeywordReminderSetting();
+});

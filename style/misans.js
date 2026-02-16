@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    MiSans
 // @id    1753962851002_c604f558-58b3-4ec6-ba71-04b3d0f40c03
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/misans.js
 // @description    加载 MiSans
 // @author    Nitai
@@ -57,7 +57,11 @@ function createMiSansFontSetting() {
 }
 
 $(function () {
-    createMiSansFontSetting()
+    // 等待插件设置创建完成后再初始化设置
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createMiSansFontSetting()
+    });
+
     setTimeout(() => {
         const MiSansLicenseAgreement = localStorage.getItem('MiSansLicenseAgreement') || false;
         if (MiSansLicenseAgreement === false) {

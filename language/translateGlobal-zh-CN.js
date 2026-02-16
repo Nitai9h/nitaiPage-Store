@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    简体中文
 // @id    1754240200155_61322c74-6fe7-436f-a824-e94e594bfa17
-// @version    1.0.3
+// @version    1.0.4
 // @type    translate
 // @translates     zh-CN
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-zh-CN.js
@@ -297,6 +297,7 @@ const translateEntriesGlobal = {
 // 添加字典
 $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
+        localStorage.setItem('installedTranslationLang', `zh-CN`);
         window.i18n.addTranslationEntries(translateEntriesGlobal);
     }
 });

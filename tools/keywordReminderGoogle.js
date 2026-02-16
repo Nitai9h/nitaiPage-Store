@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-谷歌源
 // @id    1754203071843_e1f70c36-10ee-441c-80e8-3eb0c3d918e3
-// @version    1.0.4
+// @version    1.0.5
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderGoogle.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -179,9 +179,6 @@ function createKeywordReminderSetting() {
     }
 }
 
-(function () {
-    // 页面加载完成后初始化设置
-    $(document).ready(function () {
-        createKeywordReminderSetting();
-    });
-})();
+document.addEventListener('pluginSettingsTemplateReady', function () {
+    createKeywordReminderSetting();
+});

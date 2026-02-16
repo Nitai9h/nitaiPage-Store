@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    霞鹜文楷等宽版
 // @id    1754216597364_244b74a2-f81b-4016-b0cb-326385f59bd7
-// @version    1.0.3
+// @version    1.0.4
 // @updateUrl    https://nfdb.nitai.us.kg/LXGWWenKaiMono.js
 // @description    加载霞鹜文楷等宽版
 // @author    Nitai
@@ -48,7 +48,11 @@ function createLXGWWenKaiMonoSetting() {
 }
 
 $(function () {
-    createLXGWWenKaiMonoSetting()
+    // 等待插件设置创建完成后再初始化设置
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createLXGWWenKaiMonoSetting()
+    });
+
     setTimeout(() => {
         const LXGWWenKaiMonoLicenseAgreement = localStorage.getItem('LXGWWenKaiMonoLicenseAgreement') || false;
         if (LXGWWenKaiMonoLicenseAgreement === false) {

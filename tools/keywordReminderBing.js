@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-必应源
 // @id    1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0
-// @version    1.0.5
+// @version    1.0.6
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBing.js
 // @description    用于展示搜索建议
 // @author    Nitai
@@ -191,9 +191,6 @@ function createKeywordReminderSetting() {
     }
 }
 
-(function () {
-    // 页面加载完成后初始化设置
-    $(document).ready(function () {
-        createKeywordReminderSetting();
-    });
-})();
+document.addEventListener('pluginSettingsTemplateReady', function () {
+    createKeywordReminderSetting();
+});

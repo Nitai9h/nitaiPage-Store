@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    繁體中文
 // @id    1771170082753_1200b0ce-dda6-4008-bdae-bee1d49642f6
-// @version    1.0.3
+// @version    1.0.4
 // @type    translate
 // @translates     zh-TW
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-zh-TW.js
@@ -297,6 +297,7 @@ const translateEntriesGlobal = {
 // 添加字典
 $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
+        localStorage.setItem('installedTranslationLang', `zh-TW`);
         window.i18n.addTranslationEntries(translateEntriesGlobal);
     }
 });
