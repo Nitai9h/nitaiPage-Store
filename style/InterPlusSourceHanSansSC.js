@@ -1,13 +1,14 @@
 // ==Npplication==
 // @name    Inter + 思源黑体
 // @id    1754849409807_31e69e43-7593-4348-bdcb-6f2ffb31a29f
-// @version    1.0.2
+// @version    1.0.3
 // @updateUrl    https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC.js
 // @description    西文为 Inter，中文部分 Fallback 回思源黑体
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
+// @translates    [`https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-zh-CN.js`, `https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-zh-TW.js`, `https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-en-US.js`]
 // ==/Npplication==
 
 $(function () {
@@ -61,11 +62,11 @@ function createInterPlusSourceHanSansSCFontSetting() {
                 <div class="HarmonyosSansSC-container">
                     <div class="set_tip_about">
                         <a class="text_hover about-link" href="https://font.nitai.us.kg/Inter/LICENSE.txt" target="_blank" class="about-link">
-                            <span class="set_text">Inter License Agreement (copy)</span>
+                            <span class="set_text">@InterPlusSourceHanSansSC:license-agreement-1 (copy)</span>
                             <span class="iconfont icon-link"></span>
                         </a>
                         <a class="text_hover about-link" href="https://font.nitai.us.kg/SourceHanSansSC/LICENSE.txt" target="_blank" class="about-link">
-                            <span class="set_text">SourceHanSansSC License Agreement (copy)</span>
+                            <span class="set_text">@InterPlusSourceHanSansSC:license-agreement-2 (copy)</span>
                             <span class="iconfont icon-link"></span>
                         </a>
                     </div>
@@ -86,14 +87,14 @@ $(function () {
         if (InterPlusSourceHanSansSCLicenseAgreement === false) {
             // 显示字体授权协议窗口
             showAnnouncement(
-                '声明',
-                `您正在使用 Inter 与 SourceHanSansSC 字体\n
-根据 Inter 与 SourceHanSansSC 字体开源许可协议：\n
-1. 两款字体皆根据 SIL Open Font License 1.1 授权许可\n
-2. 字体文件未经修改且未单独分发\n
+                '@InterPlusSourceHanSansSC:notice',
+                `@InterPlusSourceHanSansSC:notice-title\n
+@InterPlusSourceHanSansSC:notice-content-1\n
+@InterPlusSourceHanSansSC:notice-content-2\n
+@InterPlusSourceHanSansSC:notice-content-3\n
 \n
-更多授权详情请查看 NPP 设置页面`,
-                '继续'
+@InterPlusSourceHanSansSC:notice-content-4`,
+                '@InterPlusSourceHanSansSC:notice-button'
             );
             localStorage.setItem('InterPlusSourceHanSansSCLicenseAgreement', true)
         }

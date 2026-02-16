@@ -1,13 +1,14 @@
 // ==Npplication==
 // @name    搜索建议-谷歌源
 // @id    1754203071843_e1f70c36-10ee-441c-80e8-3eb0c3d918e3
-// @version    1.0.5
+// @version    1.0.6
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderGoogle.js
 // @description    用于展示搜索建议
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/keywordReminder.svg
 // @setting    true
+// @translates    [`https://nfdb.nitai.us.kg/keywordReminderGoogle-zh-CN.js`, `https://nfdb.nitai.us.kg/keywordReminderGoogle-zh-TW.js`, `https://nfdb.nitai.us.kg/keywordReminderGoogle-en-US.js`]
 // ==/Npplication==
 
 // 检查搜索建议是否启用
@@ -110,15 +111,15 @@ function createKeywordReminderSetting() {
                 </style>
                 <div class="keywordReminder_switch-container">
                     <div>
-                        <span class="set_text"><big>开启搜索建议</big><br></span>
-                        <span class="set_text" style="color: gray;"><small>启用搜索建议功能</small></span>
+                        <span class="set_text"><big>@keywordReminderGoogle:suggest-switch</big><br></span>
+                        <span class="set_text" style="color: gray;"><small>@keywordReminderGoogle:suggest-switch-desc</small></span>
                     </div>
                     <div class="switch" id="toggleKeywordReminder"></div>
                 </div>
                 <div class="keywordReminder_switch-container" style="margin-bottom: 0px;">
                     <div>
-                        <span class="set_text"><big>开启快捷翻译</big><br></span>
-                        <span class="set_text" style="color: gray;"><small>在搜索建议中显示翻译选项</small></span>
+                        <span class="set_text"><big>@keywordReminderGoogle:translate-switch</big><br></span>
+                        <span class="set_text" style="color: gray;"><small>@keywordReminderGoogle:translate-switch-desc</small></span>
                     </div>
                     <div class="switch" id="toggleQuickTranslation"></div>
                 </div>

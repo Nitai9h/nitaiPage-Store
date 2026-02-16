@@ -1,13 +1,14 @@
 // ==Npplication==
 // @name    更纱黑体
 // @id    1754217199372_507b8683-e1fe-40a5-8ca3-bf27d536e3a7
-// @version    1.0.4
+// @version    1.0.5
 // @updateUrl    https://nfdb.nitai.us.kg/SarasaFixedSC.js
 // @description    加载更纱黑体
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
+// @translates    [`https://nfdb.nitai.us.kg/SarasaFixedSC-zh-CN.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-zh-TW.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-en-US.js`]
 // ==/Npplication==
 
 $(function () {
@@ -44,7 +45,7 @@ function createSarasaFixedSCSetting() {
                 <div class="SarasaFixedSC-container">
                     <div class="set_tip_about">
                         <a class="text_hover about-link" href="https://font.nitai.us.kg/SarasaFixedSC/LICENSE.txt" target="_blank" class="about-link">
-                            <span class="set_text">License Agreement (copy)</span>
+                            <span class="set_text">@SarasaFixedSC:license-agreement (copy)</span>
                             <span class="iconfont icon-link"></span>
                         </a>
                     </div>
@@ -65,14 +66,14 @@ $(function () {
         if (SarasaFixedSCLicenseAgreement === false) {
             // 显示字体授权协议窗口
             showAnnouncement(
-                '声明',
-                `您正在使用 SarasaFixedSC (更纱黑体)字体\n
-根据 SarasaFixedSC 字体使用许可协议：\n
-1. 该字体根据 SIL Open Font License 1.1 授权许可\n
-2. 字体文件未经修改且未单独分发\n
+                '@SarasaFixedSC:notice',
+                `@SarasaFixedSC:notice-title\n
+@SarasaFixedSC:notice-content-1\n
+@SarasaFixedSC:notice-content-2\n
+@SarasaFixedSC:notice-content-3\n
 \n
-完整许可协议请查看 NPP 设置页面`,
-                '继续'
+@SarasaFixedSC:notice-content-4`,
+                '@SarasaFixedSC:continue'
             );
             localStorage.setItem('SarasaFixedSCLicenseAgreement', true);
         }

@@ -1,13 +1,14 @@
 // ==Npplication==
 // @name    MiSans
 // @id    1753962851002_c604f558-58b3-4ec6-ba71-04b3d0f40c03
-// @version    1.0.4
+// @version    1.0.5
 // @updateUrl    https://nfdb.nitai.us.kg/misans.js
 // @description    加载 MiSans
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
+// @translates    [`https://nfdb.nitai.us.kg/misans-zh-CN.js`, `https://nfdb.nitai.us.kg/misans-zh-TW.js`, `https://nfdb.nitai.us.kg/misans-en-US.js`]
 // ==/Npplication==
 
 $(function () {
@@ -46,7 +47,7 @@ function createMiSansFontSetting() {
                 <div class="MiSans-container">
                     <div class="set_tip_about">
                         <a class="text_hover about-link" href="https://font.nitai.us.kg/MiSans/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" class="about-link">
-                            <span class="set_text">License Agreement (copy)</span>
+                            <span class="set_text">@misans:license-agreement (copy)</span>
                             <span class="iconfont icon-link"></span>
                         </a>
                     </div>
@@ -67,17 +68,17 @@ $(function () {
         if (MiSansLicenseAgreement === false) {
             // 显示字体授权协议窗口
             showAnnouncement(
-                '声明',
-                `您正在使用 MiSans 字体\n
-根据 MiSans 字体使用许可协议（以下简称“协议”）：\n
-1. 本 NPP 使用的字体基于协议授权\n
-2. 字体文件未经修改且未单独分发\n
+                '@misans:notice',
+                `@misans:notice-title\n
+@misans:notice-content-1\n
+@misans:notice-content-2\n
+@misans:notice-content-3\n
 \n
-更多授权详情请查看 NPP 设置页面\n
+@misans:notice-content-4\n
 \n
-版权信息：\n
+@misans:copyright\n
 Copyright (c), Beijing Xiaomi Mobile Software Co., Ltd.`,
-                '继续'
+                '@misans:notice-continue'
             );
             localStorage.setItem('MiSansLicenseAgreement', true);
         }

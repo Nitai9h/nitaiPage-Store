@@ -1,19 +1,20 @@
 // ==Npplication==
 // @name    年份显示
 // @id    1753707484255_203d0c2d-ec66-40ac-9fa9-f55d4fe86dea
-// @version    1.0.0
+// @version    1.0.1
 // @updateUrl    https://nfdb.nitai.us.kg/dateYear.js
 // @description    用于显示年份
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/dateYear.svg
 // @screen    [`https://nitai-images.pages.dev/nitaiPage/store/dateYear_screen.webp`]
+// @translates    [`https://nfdb.nitai.us.kg/dateYear-zh-CN.js`, `https://nfdb.nitai.us.kg/dateYear-zh-TW.js`, `https://nfdb.nitai.us.kg/dateYear-en-US.js`]
 // ==/Npplication==
 
 function getYearHTML() {
     const dt = new Date();
     let year = dt.getFullYear();
-    return wrapDayDigits(year.toString()) + "&nbsp;年&nbsp;" + '<span id="point"></span>';
+    return wrapDayDigits(year.toString()) + "&nbsp; @dateYear:year &nbsp;" + '<span id="point"></span>';
 }
 
 function initYearInjection() {

@@ -1,13 +1,14 @@
 // ==Npplication==
 // @name    搜索建议-百度源
 // @id    1754202777496_85ffc71b-ab7f-47e8-bc43-9276e05de0f6
-// @version    1.0.5
+// @version    1.0.6
 // @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBaidu.js
 // @description    用于展示搜索建议
 // @author    Nitai
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/keywordReminder.svg
 // @setting    true
+// @translates    [`https://nfdb.nitai.us.kg/keywordReminderBaidu-zh-CN.js`, `https://nfdb.nitai.us.kg/keywordReminderBaidu-zh-TW.js`, `https://nfdb.nitai.us.kg/keywordReminderBaidu-en-US.js`]
 // ==/Npplication==
 
 // 检查搜索建议是否启用
@@ -104,15 +105,15 @@ function createKeywordReminderSetting() {
                 </style>
                 <div class="keywordReminder_switch-container">
                     <div>
-                        <span class="set_text"><big>开启搜索建议</big><br></span>
-                        <span class="set_text" style="color: gray;"><small>启用搜索建议功能</small></span>
+                        <span class="set_text"><big>@keywordReminderBaidu:suggest-switch</big><br></span>
+                        <span class="set_text" style="color: gray;"><small>@keywordReminderBaidu:suggest-switch-desc</small></span>
                     </div>
                     <div class="switch" id="toggleKeywordReminder"></div>
                 </div>
                 <div class="keywordReminder_switch-container" style="margin-bottom: 0px;">
                     <div>
-                        <span class="set_text"><big>开启快捷翻译</big><br></span>
-                        <span class="set_text" style="color: gray;"><small>在搜索建议中显示翻译选项</small></span>
+                        <span class="set_text"><big>@keywordReminderBaidu:translate-switch</big><br></span>
+                        <span class="set_text" style="color: gray;"><small>@keywordReminderBaidu:translate-switch-desc</small></span>
                     </div>
                     <div class="switch" id="toggleQuickTranslation"></div>
                 </div>
