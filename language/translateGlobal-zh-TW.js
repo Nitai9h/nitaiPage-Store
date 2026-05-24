@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    繁體中文
 // @id    1771170082753_1200b0ce-dda6-4008-bdae-bee1d49642f6
-// @version    1.0.4
+// @version    1.0.5
 // @type    translate
 // @translates     zh-TW
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-zh-TW.js
@@ -291,7 +291,9 @@ const translateEntriesGlobal = {
     "@npplication:load-plugin-management-fail": "加載插件管理頁面失敗",
     "@npplication:store-empty": "還未安裝插件",
     "@npplication:official-source": "官方源",
-    "@npplication:load-plugin-error": "加載插件時出錯"
+    "@npplication:load-plugin-error": "加載插件時出錯",
+    "@npplication:setting-auto-update-plugins": "自動更新插件",
+    "@npplication:setting-auto-update-plugins-desc": "開啟後，有新版本時自動更新插件，無需手動確認"
 };
 
 // 添加字典

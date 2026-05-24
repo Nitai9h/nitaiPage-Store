@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    English(US)
 // @id    1771170114075_7db02f1b-4106-427c-a9d7-0128f4e63870
-// @version    1.0.4
+// @version    1.0.5
 // @type    translate
 // @translates     en-US
 // @updateUrl    https://nfdb.nitai.us.kg/translateGlobal-en-US.js
@@ -291,7 +291,9 @@ const translateEntriesGlobal = {
     "@npplication:load-plugin-management-fail": "Load plugin management page fail",
     "@npplication:store-empty": "No plugins installed",
     "@npplication:official-source": "Official source",
-    "@npplication:load-plugin-error": "Load plugin error"
+    "@npplication:load-plugin-error": "Load plugin error",
+    "@npplication:setting-auto-update-plugins": "Auto update plugins",
+    "@npplication:setting-auto-update-plugins-desc": "Enable auto update plugins when new version is available",
 };
 
 // 添加字典
