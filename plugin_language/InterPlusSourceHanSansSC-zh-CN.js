@@ -2,7 +2,6 @@
 // @name    Inter + 思源黑体 - 简体中文
 // @version    1.0.0
 // @id    1771227557302_99ffe94e-503e-4ddb-8322-6224e5479e09
-// @updateUrl    https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-zh-CN.js
 // @description    Inter + 思源黑体 插件的简体中文翻译
 // @author    Nitai
 // @translates    zh-CN
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@InterPlusSourceHanSansSC:license-agreement-1": "Inter 许可协议",
         "@InterPlusSourceHanSansSC:license-agreement-2": "SourceHanSansSC 许可协议",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

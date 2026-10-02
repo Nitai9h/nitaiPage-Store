@@ -2,7 +2,6 @@
 // @name    SarasaFixedSC - English
 // @version    1.0.0
 // @id    1771229013383_0c94e349-77f4-454f-b942-941201f4380c
-// @updateUrl    https://nfdb.nitai.us.kg/SarasaFixedSC-en-US.js
 // @description    English translation for SarasaFixedSC plugin
 // @author    Nitai
 // @translates    en-US
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@SarasaFixedSC:license-agreement": "License Agreement",
         "@SarasaFixedSC:notice": "Notice",
@@ -25,4 +24,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-必应源
 // @id    1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0
-// @version    1.0.7
-// @updateUrl    https://nfdb.nitai.us.kg/keywordReminderBing.js
+// @version    1.0.8
 // @description    用于展示搜索建议
 // @author    Nitai
 // @time    head
@@ -11,105 +10,199 @@
 // @translates    [`https://nfdb.nitai.us.kg/keywordReminderBing-zh-CN.js`, `https://nfdb.nitai.us.kg/keywordReminderBing-zh-TW.js`, `https://nfdb.nitai.us.kg/keywordReminderBing-en-US.js`]
 // ==/Npplication==
 
-// 检查搜索建议是否启用
-function isKeywordReminderEnabled() {
-    return localStorage.getItem('keywordReminder') !== 'off';
-}
+(function () {
+    'use strict';
 
-// 检查快捷翻译是否启用
-function isQuickTranslationEnabled() {
-    return localStorage.getItem('quickTranslation') !== 'off' && isKeywordReminderEnabled();
-}
+    // 接口
+    const SUGGEST_URL = 'https://api.bing.com/qsonhs.aspx?type=cb&q=';
+    const CALLBACK_PARAM = 'cb';
+    const TRANSLATE_URL = 'https://www.bing.com/translator/?text=';
 
-function escapeHTML(str) {
-    if (!str || typeof str !== 'string') return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
+    // 截断
+    const MAX_KEYWORD_LENGTH = 500;
 
-function keywordReminder() {
-    if (!isKeywordReminderEnabled()) {
-        return;
-    }
-    var keyword = $(".wd").val();
+    // 避免闪屏
+    const INPUT_DEBOUNCE = 250;
 
-    if (!keyword || typeof keyword !== 'string') {
-        $("#keywords").empty().show();
-        $("#keywords").hide();
-        return;
+    let jsonpSeq = 0;
+    let debounceTimer = null;
+
+    // 检查搜索建议是否启用
+    function isKeywordReminderEnabled() {
+        return localStorage.getItem('keywordReminder') !== 'off';
     }
 
-    keyword = keyword.trim();
-    if (keyword === "") {
-        $("#keywords").empty().show();
-        $("#keywords").hide();
-        return;
+    // 检查快捷翻译是否启用
+    function isQuickTranslationEnabled() {
+        return localStorage.getItem('quickTranslation') !== 'off' && isKeywordReminderEnabled();
     }
 
-    if (keyword.length > 500) {
-        $("#keywords").empty().show();
-        $("#keywords").hide();
-        return;
-    }
+    // 数据结构：{ AS: { Results: [ { Suggests: [ { Txt, Sk } ] } ] } }
+    function extractSuggestions(data) {
+        const results = data && data.AS && Array.isArray(data.AS.Results) ? data.AS.Results : [];
+        const out = [];
 
-    $.ajax({
-        url: 'https://api.bing.com/qsonhs.aspx?type=cb&q=' + encodeURIComponent(keyword),
-        dataType: 'jsonp',
-        jsonp: 'cb',
-        success: function (data) {
-            $("#keywords").css("width", $('.sou').width());
-            $("#keywords").empty().show();
-            if (data && data.AS && data.AS.Results) {
-                if (isQuickTranslationEnabled()) {
-                    const translateDiv = $('<div class="keyword" data-id="translate"></div>');
-                    translateDiv.append('<i class="iconfont icon-fanyi"></i>');
-                    translateDiv.append(document.createTextNode(escapeHTML(keyword)));
-                    $('#keywords').append(translateDiv);
-                }
-                data.AS.Results.forEach(function (result) {
-                    if (result.Suggests) {
-                        result.Suggests.forEach(function (suggest) {
-                            if (suggest.Txt && typeof suggest.Txt === 'string') {
-                                const keywordDiv = $('<div class="keyword"></div>');
-                                keywordDiv.attr('data-id', escapeHTML(String(suggest.Sk || '')));
-                                keywordDiv.append('<i class="iconfont icon-sousuo"></i>');
-                                keywordDiv.append(document.createTextNode(escapeHTML(suggest.Txt)));
-                                $('#keywords').append(keywordDiv);
-                            }
-                        });
-                    }
-                });
-                $("#keywords").attr("data-length", data.AS.Results.reduce((total, result) => total + (result.Suggests ? result.Suggests.length : 0), 0));
-            }
-            $(".keyword").click(function () {
-                var keywordId = $(this).data('id');
-                if (keywordId === 'translate') {
-                    window.open('https://www.bing.com/translator/?text=' + encodeURIComponent($(".wd").val()), '_blank');
-                } else {
-                    $(".wd").val($(this).text());
-                    $("#search-submit").click();
-                }
+        results.forEach(function (result) {
+            const suggests = result && Array.isArray(result.Suggests) ? result.Suggests : [];
+            suggests.forEach(function (suggest) {
+                if (!suggest || typeof suggest.Txt !== 'string' || !suggest.Txt) return;
+                out.push({ id: String(suggest.Sk || out.length + 1), text: suggest.Txt });
             });
-        },
-        error: function () {
-            $("#keywords").empty().show();
-            $("#keywords").hide();
+        });
+
+        return out;
+    }
+
+    // 请求建议，用完回收
+    function fetchSuggestions(keyword) {
+        return new Promise(function (resolve, reject) {
+            const callbackName = '__nppKeywordReminder_' + (++jsonpSeq) + '_' + Date.now();
+            const script = document.createElement('script');
+            let settled = false;
+
+            function cleanup() {
+                try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+                script.remove();
+            }
+
+            window[callbackName] = function (data) {
+                settled = true;
+                cleanup();
+                resolve(data);
+            };
+
+            script.src = SUGGEST_URL + encodeURIComponent(keyword) +
+                '&' + CALLBACK_PARAM + '=' + callbackName;
+            script.onerror = function () {
+                if (settled) return;
+                cleanup();
+                reject(new Error('搜索建议请求失败'));
+            };
+
+            document.head.appendChild(script);
+        });
+    }
+
+    function getContainer() {
+        return document.getElementById('keywords');
+    }
+
+    function hideContainer() {
+        const container = getContainer();
+        if (!container) return;
+        container.innerHTML = '';
+        container.style.display = 'none';
+    }
+
+    // 清空并显示容器，宽度对齐搜索框
+    function showContainer() {
+        const container = getContainer();
+        if (!container) return null;
+
+        const sou = document.querySelector('.sou');
+        container.innerHTML = '';
+        if (sou) container.style.width = sou.getBoundingClientRect().width + 'px';
+        container.style.display = 'block';
+        return container;
+    }
+
+    // 单条建议；文本用 createTextNode，不拼接 HTML
+    function createKeywordItem(text, id, iconClass) {
+        const item = document.createElement('div');
+        item.className = 'keyword';
+        item.dataset.id = id;
+        item.dataset.value = text;
+        item.innerHTML = '<i class="iconfont ' + iconClass + '"></i>';
+        item.appendChild(document.createTextNode(text));
+        return item;
+    }
+
+    function keywordReminder() {
+        // 检查搜索建议是否启用
+        if (!isKeywordReminderEnabled()) return;
+
+        const input = document.querySelector('.wd');
+        if (!input) return;
+
+        const keyword = String(input.value || '').trim();
+        if (!keyword || keyword.length > MAX_KEYWORD_LENGTH) {
+            hideContainer();
+            return;
         }
-    })
-}
 
+        if (!getContainer()) return;
 
-// 创建设置
-function createKeywordReminderSetting() {
-    const pluginId = '1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+        fetchSuggestions(keyword)
+            .then(function (data) {
+                const suggestions = extractSuggestions(data);
+                const container = showContainer();
+                if (!container) return;
 
-    if (mainConts) {
+                // 快捷翻译项
+                if (isQuickTranslationEnabled()) {
+                    container.appendChild(createKeywordItem(keyword, 'translate', 'icon-fanyi'));
+                }
+
+                suggestions.forEach(function (suggestion) {
+                    container.appendChild(createKeywordItem(suggestion.text, suggestion.id, 'icon-sousuo'));
+                });
+
+                container.dataset.length = String(suggestions.length);
+            })
+            .catch(function () {
+                hideContainer();
+            });
+    }
+
+    // 点击建议：容器内容会重建，所以用事件委托绑在容器上
+    function onContainerClick(event) {
+        const item = event.target && event.target.closest ? event.target.closest('.keyword') : null;
+        if (!item || !item.dataset) return;
+
+        const input = document.querySelector('.wd');
+        const currentValue = input ? input.value : '';
+
+        if (item.dataset.id === 'translate') {
+            window.open(TRANSLATE_URL + encodeURIComponent(currentValue), '_blank');
+            return;
+        }
+
+        if (!input) return;
+        input.value = item.dataset.value || item.textContent;
+
+        const submit = document.getElementById('search-submit');
+        if (submit) submit.click();
+    }
+
+    // 空输入收起
+    function onInput() {
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+            debounceTimer = null;
+        }
+
+        const input = document.querySelector('.wd');
+        const keyword = input ? String(input.value || '').trim() : '';
+        if (!keyword) {
+            hideContainer();
+            return;
+        }
+
+        debounceTimer = setTimeout(function () {
+            debounceTimer = null;
+            keywordReminder();
+        }, INPUT_DEBOUNCE);
+    }
+
+    // 设置
+    function createKeywordReminderSetting() {
+        const pluginId = '1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+        if (!mainConts) return;
+
         const settingDiv = document.createElement('div');
         settingDiv.id = 'keywordReminder_setting';
         settingDiv.className = 'set_tip';
-        settingDiv.style = 'width: 100%';
         settingDiv.innerHTML = `
                 <style>
                 .keywordReminder_switch-container {
@@ -139,59 +232,116 @@ function createKeywordReminderSetting() {
         mainConts.appendChild(settingDiv);
 
         // 初始化开关状态
-        const toggleKeywordReminder = $('#toggleKeywordReminder');
-        const toggleQuickTranslation = $('#toggleQuickTranslation');
+        const toggleKeywordReminder = document.getElementById('toggleKeywordReminder');
+        const toggleQuickTranslation = document.getElementById('toggleQuickTranslation');
+        if (!toggleKeywordReminder || !toggleQuickTranslation) return;
 
         const keywordReminderState = localStorage.getItem('keywordReminder') || 'on';
         const quickTranslationState = localStorage.getItem('quickTranslation') || 'on';
 
         if (keywordReminderState === 'on') {
-            toggleKeywordReminder.addClass('on');
+            toggleKeywordReminder.classList.add('on');
         }
 
         if (quickTranslationState === 'on' && keywordReminderState === 'on') {
-            toggleQuickTranslation.addClass('on');
+            toggleQuickTranslation.classList.add('on');
         } else if (keywordReminderState === 'off') {
             // 搜索建议未开启时，快捷翻译自动关闭且不可用
-            toggleQuickTranslation.addClass('disabled');
+            toggleQuickTranslation.classList.add('disabled');
         }
 
         // 搜索建议开关点击事件
-        toggleKeywordReminder.on('click', function () {
-            const isOn = $(this).hasClass('on');
+        toggleKeywordReminder.addEventListener('click', function () {
+            const isOn = toggleKeywordReminder.classList.contains('on');
             if (isOn) {
-                $(this).removeClass('on');
+                toggleKeywordReminder.classList.remove('on');
                 localStorage.setItem('keywordReminder', 'off');
                 // 搜索建议关闭时，快捷翻译也自动关闭
-                toggleQuickTranslation.removeClass('on').addClass('disabled');
+                toggleQuickTranslation.classList.remove('on');
+                toggleQuickTranslation.classList.add('disabled');
                 localStorage.setItem('quickTranslation', 'off');
             } else {
-                $(this).addClass('on');
+                toggleKeywordReminder.classList.add('on');
                 localStorage.setItem('keywordReminder', 'on');
                 // 搜索建议开启时，快捷翻译恢复可用
-                toggleQuickTranslation.removeClass('disabled');
+                toggleQuickTranslation.classList.remove('disabled');
             }
         });
 
         // 快捷翻译开关点击事件
-        toggleQuickTranslation.on('click', function () {
+        toggleQuickTranslation.addEventListener('click', function () {
             // 检查是否被禁用
-            if ($(this).hasClass('disabled')) {
-                return;
-            }
+            if (toggleQuickTranslation.classList.contains('disabled')) return;
 
-            const isOn = $(this).hasClass('on');
+            const isOn = toggleQuickTranslation.classList.contains('on');
             if (isOn) {
-                $(this).removeClass('on');
+                toggleQuickTranslation.classList.remove('on');
                 localStorage.setItem('quickTranslation', 'off');
             } else {
-                $(this).addClass('on');
+                toggleQuickTranslation.classList.add('on');
                 localStorage.setItem('quickTranslation', 'on');
             }
         });
     }
-}
 
-document.addEventListener('pluginSettingsTemplateReady', function () {
-    createKeywordReminderSetting();
-});
+    document.addEventListener('pluginSettingsTemplateReady', function () {
+        createKeywordReminderSetting();
+    });
+
+    function initKeywordReminder() {
+        const input = document.querySelector('.wd');
+        const sou = document.querySelector('.sou');
+        if (!input || !sou || document.getElementById('keywords')) return;
+
+        const style = document.createElement('style');
+        style.textContent = [
+            '#keywords {',
+            '    position: absolute;',
+            '    left: 0;',
+            '    right: 0;',
+            '    top: calc(100% + 8px);',
+            '    font-size: small;',
+            '    color: var(--main-text-color);',
+            '    background-color: var(--main-background-color);',
+            '    box-shadow: var(--main-search-shadow);',
+            '    border-radius: 8px;',
+            '    display: none;',
+            '    z-index: 999;',
+            '    -webkit-backdrop-filter: var(--main-box-gauss-plus);',
+            '    backdrop-filter: var(--main-box-gauss-plus);',
+            '}',
+            '.keyword {',
+            '    padding: 6px 12px;',
+            '    border-radius: 8px;',
+            '    transition: 0.3s;',
+            '}',
+            '.keyword i {',
+            '    margin-right: 6px;',
+            '    font-size: small;',
+            '}',
+            '.keyword:hover {',
+            '    cursor: pointer;',
+            '    transition: 0.3s;',
+            '    text-indent: 10px;',
+            '    background-color: var(--main-background-hover-color);',
+            '}'
+        ].join('\n');
+        document.head.appendChild(style);
+
+        // 容器挂在搜索框内，相对搜索框定位
+        sou.style.position = 'relative';
+        const container = document.createElement('div');
+        container.id = 'keywords';
+        container.addEventListener('click', onContainerClick);
+        sou.appendChild(container);
+
+        input.addEventListener('input', onInput);
+    }
+
+    // 等待搜索框渲染
+    (function waitForSearchBar(attempts) {
+        if (document.querySelector('.wd')) return initKeywordReminder();
+        if (attempts <= 0) return;
+        setTimeout(function () { waitForSearchBar(attempts - 1); }, 300);
+    })(40);
+})();

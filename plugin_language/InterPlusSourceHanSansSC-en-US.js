@@ -2,7 +2,6 @@
 // @name    Inter + SourceHanSansSC - English
 // @version    1.0.0
 // @id    1771227546287_6db7a1d9-3eaa-4fb2-a9b3-dab9e020d4ed
-// @updateUrl    https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-en-US.js
 // @description    English translation for Inter + SourceHanSansSC plugin
 // @author    Nitai
 // @translates    en-US
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@InterPlusSourceHanSansSC:license-agreement-1": "Inter License Agreement",
         "@InterPlusSourceHanSansSC:license-agreement-2": "SourceHanSansSC License Agreement",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

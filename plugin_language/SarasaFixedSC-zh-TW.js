@@ -2,7 +2,6 @@
 // @name    更紗黑體 - 繁體中文
 // @version    1.0.0
 // @id    1771229000731_af86621f-4b6a-4fd9-bf54-ef96b8da37d8
-// @updateUrl    https://nfdb.nitai.us.kg/SarasaFixedSC-zh-TW.js
 // @description    更紗黑體 插件的繁體中文翻譯
 // @author    Nitai
 // @translates    zh-TW
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@SarasaFixedSC:license-agreement": "許可協議",
         "@SarasaFixedSC:notice": "聲明",
@@ -25,4 +24,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

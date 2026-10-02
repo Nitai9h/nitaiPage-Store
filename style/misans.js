@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    MiSans
 // @id    1753962851002_c604f558-58b3-4ec6-ba71-04b3d0f40c03
-// @version    1.0.5
-// @updateUrl    https://nfdb.nitai.us.kg/misans.js
+// @version    1.0.6
 // @description    加载 MiSans
 // @author    Nitai
 // @time    head
@@ -11,7 +10,9 @@
 // @translates    [`https://nfdb.nitai.us.kg/misans-zh-CN.js`, `https://nfdb.nitai.us.kg/misans-zh-TW.js`, `https://nfdb.nitai.us.kg/misans-en-US.js`]
 // ==/Npplication==
 
-$(function () {
+(function () {
+    'use strict';
+
     document.documentElement.style.setProperty(`--font-family`, `'MiSans','sans-serif'`);
 
     const fontStylesheets = [
@@ -33,32 +34,29 @@ $(function () {
         link.href = href;
         document.head.appendChild(link);
     });
-});
 
-// 创建设置
-function createMiSansFontSetting() {
-    const pluginId = '1753962851002_c604f558-58b3-4ec6-ba71-04b3d0f40c03';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+    // 设置
+    function createMiSansFontSetting() {
+        const pluginId = '1753962851002_c604f558-58b3-4ec6-ba71-04b3d0f40c03';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
 
-    if (mainConts) {
-        const ContentDiv = document.createElement('div');
-        ContentDiv.style = 'width: 100%';
-        ContentDiv.innerHTML = `
-                <div class="MiSans-container">
-                    <div class="set_tip_about">
-                        <a class="text_hover about-link" href="https://font.nitai.us.kg/MiSans/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" class="about-link">
-                            <span class="set_text">@misans:license-agreement (copy)</span>
-                            <span class="iconfont icon-link"></span>
-                        </a>
+        if (mainConts) {
+            const ContentDiv = document.createElement('div');
+            ContentDiv.innerHTML = `
+                    <div class="MiSans-container">
+                        <div class="set_tip_about">
+                            <a class="text_hover about-link" href="https://font.nitai.us.kg/MiSans/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" class="about-link">
+                                <span class="set_text">@misans:license-agreement (copy)</span>
+                                <span class="iconfont icon-link"></span>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            `;
-        mainConts.appendChild(ContentDiv);
+                `;
+            mainConts.appendChild(ContentDiv);
+        }
     }
-}
 
-$(function () {
-    // 等待插件设置创建完成后再初始化设置
+    // 注册设置
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createMiSansFontSetting()
     });
@@ -83,4 +81,4 @@ Copyright (c), Beijing Xiaomi Mobile Software Co., Ltd.`,
             localStorage.setItem('MiSansLicenseAgreement', true);
         }
     }, 2000)
-});
+})();

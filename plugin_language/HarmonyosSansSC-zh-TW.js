@@ -2,7 +2,6 @@
 // @name    HarmonyosSansSC - 繁體中文
 // @version    1.0.0
 // @id    1771227214805_40707bac-7307-457d-81f9-5970129a1778
-// @updateUrl    https://nfdb.nitai.us.kg/HarmonyosSansSC-zh-TW.js
 // @description    HarmonyosSansSC 插件的繁體中文翻譯
 // @author    Nitai
 // @translates    zh-TW
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@HarmonyosSansSC:license-agreement": "許可協議",
         "@HarmonyosSansSC:notice": "聲明",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

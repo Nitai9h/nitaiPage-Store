@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    更纱黑体
 // @id    1754217199372_507b8683-e1fe-40a5-8ca3-bf27d536e3a7
-// @version    1.0.5
-// @updateUrl    https://nfdb.nitai.us.kg/SarasaFixedSC.js
+// @version    1.0.6
 // @description    加载更纱黑体
 // @author    Nitai
 // @time    head
@@ -11,7 +10,9 @@
 // @translates    [`https://nfdb.nitai.us.kg/SarasaFixedSC-zh-CN.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-zh-TW.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-en-US.js`]
 // ==/Npplication==
 
-$(function () {
+(function () {
+    'use strict';
+
     document.documentElement.style.setProperty(`--font-family`, `'SarasaFixedSC','sans-serif'`);
 
     const fontStylesheets = [
@@ -32,31 +33,28 @@ $(function () {
         link.href = href;
         document.head.appendChild(link);
     });
-});
 
-function createSarasaFixedSCSetting() {
-    const pluginId = '1754217199372_507b8683-e1fe-40a5-8ca3-bf27d536e3a7';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+    function createSarasaFixedSCSetting() {
+        const pluginId = '1754217199372_507b8683-e1fe-40a5-8ca3-bf27d536e3a7';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
 
-    if (mainConts) {
-        const ContentDiv = document.createElement('div');
-        ContentDiv.style = 'width: 100%';
-        ContentDiv.innerHTML = `
-                <div class="SarasaFixedSC-container">
-                    <div class="set_tip_about">
-                        <a class="text_hover about-link" href="https://font.nitai.us.kg/SarasaFixedSC/LICENSE.txt" target="_blank" class="about-link">
-                            <span class="set_text">@SarasaFixedSC:license-agreement (copy)</span>
-                            <span class="iconfont icon-link"></span>
-                        </a>
+        if (mainConts) {
+            const ContentDiv = document.createElement('div');
+            ContentDiv.innerHTML = `
+                    <div class="SarasaFixedSC-container">
+                        <div class="set_tip_about">
+                            <a class="text_hover about-link" href="https://font.nitai.us.kg/SarasaFixedSC/LICENSE.txt" target="_blank" class="about-link">
+                                <span class="set_text">@SarasaFixedSC:license-agreement (copy)</span>
+                                <span class="iconfont icon-link"></span>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            `;
-        mainConts.appendChild(ContentDiv);
+                `;
+            mainConts.appendChild(ContentDiv);
+        }
     }
-}
 
-$(function () {
-    // 等待插件设置创建完成后再初始化设置
+    // 注册设置
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createSarasaFixedSCSetting()
     });
@@ -78,4 +76,4 @@ $(function () {
             localStorage.setItem('SarasaFixedSCLicenseAgreement', true);
         }
     }, 2000)
-});
+})();

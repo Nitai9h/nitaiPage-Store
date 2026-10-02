@@ -2,7 +2,6 @@
 // @name    LXGWWenKaiMono - English
 // @version    1.0.0
 // @id     1771228365768_194cea09-ea17-462a-b200-47e99488579e
-// @updateUrl    https://nfdb.nitai.us.kg/LXGWWenKaiMono-en-US.js
 // @description    English translation for LXGWWenKaiMono plugin
 // @author    Nitai
 // @translates    en-US
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@LXGWWenKaiMono:license-agreement": "License Agreement",
         "@LXGWWenKaiMono:notice": "Notice",
@@ -25,4 +24,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

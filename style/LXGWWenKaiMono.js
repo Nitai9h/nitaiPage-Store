@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    霞鹜文楷等宽版
 // @id    1754216597364_244b74a2-f81b-4016-b0cb-326385f59bd7
-// @version    1.0.5
-// @updateUrl    https://nfdb.nitai.us.kg/LXGWWenKaiMono.js
+// @version    1.0.6
 // @description    加载霞鹜文楷等宽版
 // @author    Nitai
 // @time    head
@@ -11,7 +10,9 @@
 // @translates    [`https://nfdb.nitai.us.kg/LXGWWenKaiMono-zh-CN.js`, `https://nfdb.nitai.us.kg/LXGWWenKaiMono-zh-TW.js`, `https://nfdb.nitai.us.kg/LXGWWenKaiMono-en-US.js`]
 // ==/Npplication==
 
-$(function () {
+(function () {
+    'use strict';
+
     document.documentElement.style.setProperty(`--font-family`, `'LXGWWenKaiMono','sans-serif'`);
 
     const fontStylesheets = [
@@ -25,31 +26,28 @@ $(function () {
         link.href = href;
         document.head.appendChild(link);
     });
-});
 
-function createLXGWWenKaiMonoSetting() {
-    const pluginId = '1754216597364_244b74a2-f81b-4016-b0cb-326385f59bd7';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+    function createLXGWWenKaiMonoSetting() {
+        const pluginId = '1754216597364_244b74a2-f81b-4016-b0cb-326385f59bd7';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
 
-    if (mainConts) {
-        const ContentDiv = document.createElement('div');
-        ContentDiv.style = 'width: 100%';
-        ContentDiv.innerHTML = `
-                <div class="LXGWWenKaiMono-container">
-                    <div class="set_tip_about">
-                        <a class="text_hover about-link" href="https://font.nitai.us.kg/LXGWWenKaiMono/OFL.txt" target="_blank" class="about-link">
-                            <span class="set_text">@LXGWWenKaiMono:license-agreement (copy)</span>
-                            <span class="iconfont icon-link"></span>
-                        </a>
+        if (mainConts) {
+            const ContentDiv = document.createElement('div');
+            ContentDiv.innerHTML = `
+                    <div class="LXGWWenKaiMono-container">
+                        <div class="set_tip_about">
+                            <a class="text_hover about-link" href="https://font.nitai.us.kg/LXGWWenKaiMono/OFL.txt" target="_blank" class="about-link">
+                                <span class="set_text">@LXGWWenKaiMono:license-agreement (copy)</span>
+                                <span class="iconfont icon-link"></span>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            `;
-        mainConts.appendChild(ContentDiv);
+                `;
+            mainConts.appendChild(ContentDiv);
+        }
     }
-}
 
-$(function () {
-    // 等待插件设置创建完成后再初始化设置
+    // 注册设置
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createLXGWWenKaiMonoSetting()
     });
@@ -71,4 +69,4 @@ $(function () {
             localStorage.setItem('LXGWWenKaiMonoLicenseAgreement', true);
         }
     }, 2000)
-});
+})();

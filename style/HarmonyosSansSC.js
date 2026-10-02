@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    HarmonyosSansSC
 // @id    1753976979051_7433f494-d5ea-47aa-a3bf-f7bda52d14ba
-// @version    1.0.5
-// @updateUrl    https://nfdb.nitai.us.kg/HarmonyosSansSC.js
+// @version    1.0.6
 // @description    加载 HarmonyosSansSC
 // @author    Nitai
 // @time    head
@@ -11,7 +10,9 @@
 // @translates    [`https://nfdb.nitai.us.kg/HarmonyosSansSC-zh-CN.js`, `https://nfdb.nitai.us.kg/HarmonyosSansSC-zh-TW.js`, `https://nfdb.nitai.us.kg/HarmonyosSansSC-en-US.js`]
 // ==/Npplication==
 
-$(function () {
+(function () {
+    'use strict';
+
     document.documentElement.style.setProperty(`--font-family`, `'HarmonyOS_Sans_SC','sans-serif'`);
 
     const fontStylesheets = [
@@ -29,32 +30,29 @@ $(function () {
         link.href = href;
         document.head.appendChild(link);
     });
-});
 
-// 创建设置
-function createHarmonyosSansSCFontSetting() {
-    const pluginId = '1753976979051_7433f494-d5ea-47aa-a3bf-f7bda52d14ba';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+    // 创建设置
+    function createHarmonyosSansSCFontSetting() {
+        const pluginId = '1753976979051_7433f494-d5ea-47aa-a3bf-f7bda52d14ba';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
 
-    if (mainConts) {
-        const ContentDiv = document.createElement('div');
-        ContentDiv.style = 'width: 100%';
-        ContentDiv.innerHTML = `
-                <div class="HarmonyosSansSC-container">
-                    <div class="set_tip_about">
-                        <a class="text_hover about-link" href="https://font.nitai.us.kg/HarmonyOS_Sans_SC/LICENSE.txt" target="_blank" class="about-link">
-                            <span class="set_text">@HarmonyosSansSC:license-agreement (copy)</span>
-                            <span class="iconfont icon-link"></span>
-                        </a>
+        if (mainConts) {
+            const ContentDiv = document.createElement('div');
+            ContentDiv.innerHTML = `
+                    <div class="HarmonyosSansSC-container">
+                        <div class="set_tip_about">
+                            <a class="text_hover about-link" href="https://font.nitai.us.kg/HarmonyOS_Sans_SC/LICENSE.txt" target="_blank" class="about-link">
+                                <span class="set_text">@HarmonyosSansSC:license-agreement (copy)</span>
+                                <span class="iconfont icon-link"></span>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            `;
-        mainConts.appendChild(ContentDiv);
+                `;
+            mainConts.appendChild(ContentDiv);
+        }
     }
-}
 
-$(function () {
-    // 等待插件设置创建完成后再初始化设置
+    // 注册设置
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createHarmonyosSansSCFontSetting()
     });
@@ -78,4 +76,4 @@ $(function () {
             localStorage.setItem('harmonyosSansSCLicenseAgreement', true)
         }
     }, 2000)
-});
+})();

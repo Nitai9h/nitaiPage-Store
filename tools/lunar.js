@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    农历显示
 // @id    1753891006224_a75c053a-e545-4679-9316-cee02e3fc2e9
-// @version    1.2.6
-// @updateUrl    https://nfdb.nitai.us.kg/lunar.js
+// @version    1.2.7
 // @description    显示农历日期
 // @author    Nitai
 // @time    head
@@ -296,7 +295,6 @@ function genereateLunarSettings() {
         const lunarSettingDiv = document.createElement('div');
         lunarSettingDiv.id = 'lunar_settings';
         lunarSettingDiv.className = 'set_tip';
-        lunarSettingDiv.style = 'width: 100%';
         lunarSettingDiv.innerHTML = `
                 <div class="tip_new_both advancedSetting">
                     <div>

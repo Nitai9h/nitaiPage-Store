@@ -2,7 +2,6 @@
 // @name    霞鹜文楷等宽版 - 简体中文
 // @version    1.0.0
 // @id     1771228356953_395bb01e-3936-435c-a6ba-4e2ccb60409b
-// @updateUrl    https://nfdb.nitai.us.kg/LXGWWenKaiMono-zh-CN.js
 // @description    霞鹜文楷等宽版 插件的简体中文翻译
 // @author    Nitai
 // @translates    zh-CN
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@LXGWWenKaiMono:license-agreement": "许可协议",
         "@LXGWWenKaiMono:notice": "声明",
@@ -25,4 +24,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

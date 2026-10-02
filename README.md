@@ -9,12 +9,12 @@
 直接填入 nitaiPage 插件商店源处即可
 
 ```bash
-https://nfdb.nitai.us.kg/nitaiPage/store
+https://nppdb.nitai.cc/store
 ```
 
 ### 📖文档
 
-详细的使用和插件开发文档请访问：[https://nitaipage.nitai.us.kg/](https://nitaipage.nitai.us.kg/)
+详细的使用和插件开发文档请访问：[https://nitaipage.nitai.cc/](https://nitaipage.nitai.cc/)
 
 ### 📜 LICENSE
 

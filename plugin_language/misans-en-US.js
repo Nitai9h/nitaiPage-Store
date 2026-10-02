@@ -2,7 +2,6 @@
 // @name    MiSans - English
 // @version    1.0.0
 // @id    1771228634699_159e2d46-6aaf-416a-831c-10476c33ce84
-// @updateUrl    https://nfdb.nitai.us.kg/misans-en-US.js
 // @description    English translation for MiSans plugin
 // @author    Nitai
 // @translates    en-US
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@misans:license-agreement": "License Agreement (copy)",
         "@misans:notice": "Notice",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

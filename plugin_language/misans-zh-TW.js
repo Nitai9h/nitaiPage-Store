@@ -2,7 +2,6 @@
 // @name    MiSans - 繁體中文
 // @version    1.0.0
 // @id    1771228656647_c203e4db-806b-4eea-88fa-96fb5855da7f
-// @updateUrl    https://nfdb.nitai.us.kg/misans-zh-TW.js
 // @description    MiSans 插件的繁體中文翻譯
 // @author    Nitai
 // @translates    zh-TW
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@misans:license-agreement": "許可協議（複製）",
         "@misans:notice": "聲明",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

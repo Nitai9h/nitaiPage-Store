@@ -2,7 +2,6 @@
 // @name    HarmonyosSansSC - English
 // @version    1.0.0
 // @id    1771227191937_ef1b4473-1d5d-4c9c-b120-ec095b40baf9
-// @updateUrl    https://nfdb.nitai.us.kg/HarmonyosSansSC-en-US.js
 // @description    English translation for HarmonyosSansSC plugin
 // @author    Nitai
 // @translates    en-US
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@HarmonyosSansSC:license-agreement": "License Agreement",
         "@HarmonyosSansSC:notice": "Notice",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

@@ -2,7 +2,6 @@
 // @name    MiSans - 简体中文
 // @version    1.0.0
 // @id    1771228642952_adec3fe1-1599-48a7-b890-d4a12002d680
-// @updateUrl    https://nfdb.nitai.us.kg/misans-zh-CN.js
 // @description    MiSans 插件的简体中文翻译
 // @author    Nitai
 // @translates    zh-CN
@@ -10,7 +9,7 @@
 // @setting    false
 // ==/Npplication==
 
-$(function () {
+(function () {
     const translateEntries = {
         "@misans:license-agreement": "许可协议",
         "@misans:notice": "声明",
@@ -26,4 +25,4 @@ $(function () {
     if (typeof window !== 'undefined' && window.i18n && window.i18n.addTranslationEntries) {
         window.i18n.addTranslationEntries(translateEntries);
     }
-});
+})();

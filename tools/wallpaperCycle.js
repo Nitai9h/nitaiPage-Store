@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    壁纸切换器
 // @id    1755684063321_c66b7dc7-375f-4ab0-a32d-d1eb9c406bdb
-// @version    1.0.2
-// @updateUrl    https://nfdb.nitai.us.kg/wallpaperCycle.js
+// @version    1.0.3
 // @description    每隔一段时间自动切换下一张壁纸
 // @author    Nitai
 // @time   body
@@ -10,103 +9,107 @@
 // @setting    true
 // ==/Npplication==
 
-// 默认间隔时间
-const WALLPAPER_INTERVAL = 300000; // 5分钟
+(function () {
+    'use strict';
 
-// 检查自动切换壁纸是否启用
-function isWallpaperCycleEnabled() {
-    return localStorage.getItem('WallpaperCycleEnabled') === 'on';
-}
+    // 默认间隔时间
+    const WALLPAPER_INTERVAL = 300000; // 5分钟
 
-// 获取自动切换壁纸间隔时间
-function getWallpaperCycleInterval() {
-    return parseInt(localStorage.getItem('WallpaperCycleInterval')) || WALLPAPER_INTERVAL;
-}
+    // 定时器
+    let wallpaperCycleTimer = null;
 
-// 自动切换壁纸定时器
-let WallpaperCycleTimer = null;
-
-function autoChangeWallpaper() {
-    // 检查是否启用自动切换
-    if (!isWallpaperCycleEnabled()) {
-        return;
+    // 检查是否启用
+    function isWallpaperCycleEnabled() {
+        return localStorage.getItem('WallpaperCycleEnabled') === 'on';
     }
 
-    // 获取当前壁纸类型
-    const bg_img = getBgImg();
-    const currentType = parseInt(bg_img["type"]) || 0;
-
-    // 纯色背景，不自动切换
-    if (currentType === 2) {
-        return;
+    // 获取间隔时间
+    function getWallpaperCycleInterval() {
+        return parseInt(localStorage.getItem('WallpaperCycleInterval')) || WALLPAPER_INTERVAL;
     }
 
-    const bg = new BroadcastChannel("bgLoad");
+    function autoChangeWallpaper() {
+        // 检查是否启用自动切换
+        if (!isWallpaperCycleEnabled()) {
+            return;
+        }
 
-    // 监听壁纸加载完成事件
-    bg.onmessage = function (event) {
-        if (event.data === "bgImgLoadinged") {
-            setTimeout(() => {
-                $('#bg-video').css({ 'opacity': '1', 'transform': 'scale(1.08)', 'filter': 'var(--main-box-gauss-plus)', 'transition': 'ease 0.7s' });
-                $('#bg').css({ 'opacity': '1', 'transform': 'scale(1.08)', 'filter': 'var(--main-box-gauss-plus)', 'transition': 'ease 0.7s' });
+        // 获取当前壁纸类型
+        const bgImg = getBgImg();
+        const currentType = parseInt(bgImg['type']) || 0;
+
+        // 纯色背景，不自动切换
+        if (currentType === 2) {
+            return;
+        }
+
+        const bgElement = document.getElementById('bg');
+        const videoElement = document.getElementById('bg-video');
+
+        const bg = new BroadcastChannel('bgLoad');
+
+        // 监听壁纸加载完成事件
+        bg.onmessage = function (event) {
+            if (event.data !== 'bgImgLoadinged') return;
+            setTimeout(function () {
+                const revealed = 'opacity:1;transform:scale(1.08);filter:var(--main-box-gauss-plus);transition:ease 0.7s;';
+                if (bgElement) bgElement.style.cssText = revealed;
+                if (videoElement) videoElement.style.cssText = revealed;
                 bg.close();
             }, 200);
-        }
-    };
+        };
 
-    // 淡出效果
-    $('#bg').css("cssText", "opacity: 0;transform: scale(1);filter: blur(var(--main-box-gauss));transition: ease 0.3s;");
-    $('#bg-video').css("cssText", "opacity: 0;transform: scale(1);filter: blur(var(--main-box-gauss));transition: ease 0.3s;");
+        // 淡出效果
+        const fading = 'opacity:0;transform:scale(1);filter:blur(var(--main-box-gauss));transition:ease 0.3s;';
+        if (bgElement) bgElement.style.cssText = fading;
+        if (videoElement) videoElement.style.cssText = fading;
 
-    setTimeout(() => {
-        // 移除 onerror 事件处理器
-        $('#bg').removeAttr('onerror');
-        $('#bg').attr('src', '');
-        $('#bg').removeClass('error');
+        setTimeout(function () {
+            if (bgElement) {
+                // 移除 onerror 事件处理器
+                bgElement.removeAttribute('onerror');
+                bgElement.setAttribute('src', '');
+                bgElement.classList.remove('error');
+                bgElement.style.display = '';
+            }
 
-        // 重置视频
-        const videoElement = $('#bg-video');
-        if (videoElement.length > 0) {
-            videoElement[0].pause();
-            videoElement.attr('src', '');
-            videoElement.hide();
-        }
+            // 重置视频
+            if (videoElement) {
+                try { videoElement.pause(); } catch (error) { /* 忽略 */ }
+                videoElement.setAttribute('src', '');
+                videoElement.style.display = 'none';
+            }
 
-        $('#bg').show();
+            // 开始加载
+            bg.postMessage('bgImgLoadingStart');
 
-        // 开始加载
-        bg.postMessage("bgImgLoadingStart");
-
-        // 初始化壁纸
-        setBgImgInit();
-    }, 300);
-}
-
-function startWallpaperCycle() {
-    if (WallpaperCycleTimer) {
-        clearInterval(WallpaperCycleTimer);
+            // 初始化壁纸
+            setBgImgInit();
+        }, 300);
     }
 
-    const interval = getWallpaperCycleInterval();
-    WallpaperCycleTimer = setInterval(autoChangeWallpaper, interval);
-}
+    function startWallpaperCycle() {
+        if (wallpaperCycleTimer) {
+            clearInterval(wallpaperCycleTimer);
+        }
 
-function stopWallpaperCycle() {
-    if (WallpaperCycleTimer) {
-        clearInterval(WallpaperCycleTimer);
-        WallpaperCycleTimer = null;
+        wallpaperCycleTimer = setInterval(autoChangeWallpaper, getWallpaperCycleInterval());
     }
-}
 
-// 创建设置
-function createWallpaperCycleSetting() {
-    const pluginId = '1755684063321_c66b7dc7-375f-4ab0-a32d-d1eb9c406bdb';
-    const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+    function stopWallpaperCycle() {
+        if (!wallpaperCycleTimer) return;
+        clearInterval(wallpaperCycleTimer);
+        wallpaperCycleTimer = null;
+    }
 
-    if (mainConts) {
+    // 设置
+    function createWallpaperCycleSetting() {
+        const pluginId = '1755684063321_c66b7dc7-375f-4ab0-a32d-d1eb9c406bdb';
+        const mainConts = document.querySelector(`.mainConts[data-value="${pluginId}"]`);
+        if (!mainConts) return;
+
         const settingDiv = document.createElement('div');
         settingDiv.className = 'set_tip';
-        settingDiv.style = 'width: 100%';
         settingDiv.innerHTML = `
             <style>
             .WallpaperCycle_switch-container {
@@ -194,88 +197,88 @@ function createWallpaperCycleSetting() {
         `;
         mainConts.appendChild(settingDiv);
     }
-}
 
-// 初始化自动切换壁纸
-function initWallpaperCycle() {
-    const toggleSwitch = $('#toggleWallpaperCycle');
-    const intervalContainer = $('#WallpaperCycleIntervalContainer');
-    const intervalInput = $('#WallpaperCycleInterval');
-    const savedState = localStorage.getItem('WallpaperCycleEnabled') || 'off';
-    const savedInterval = getWallpaperCycleInterval();
+    // 初始化
+    function initWallpaperCycle() {
+        const toggleSwitch = document.getElementById('toggleWallpaperCycle');
+        const intervalContainer = document.getElementById('WallpaperCycleIntervalContainer');
+        const intervalInput = document.getElementById('WallpaperCycleInterval');
+        if (!toggleSwitch || !intervalContainer || !intervalInput) return;
 
-    // 初始状态
-    if (savedState === 'on') {
-        toggleSwitch.addClass('on');
-        intervalContainer.removeClass('hide');
-        startWallpaperCycle();
-    }
+        const savedState = localStorage.getItem('WallpaperCycleEnabled') || 'off';
+        const savedInterval = getWallpaperCycleInterval();
 
-    // 间隔时间
-    intervalInput.val(savedInterval / 60000);
-
-    toggleSwitch.on('click', function () {
-        const isOn = $(this).hasClass('on');
-        if (isOn) {
-            $(this).removeClass('on');
-            localStorage.setItem('WallpaperCycleEnabled', 'off');
-            intervalContainer.addClass('hide');
-            stopWallpaperCycle();
-        } else {
-            $(this).addClass('on');
-            localStorage.setItem('WallpaperCycleEnabled', 'on');
-            intervalContainer.removeClass('hide');
+        // 初始状态
+        if (savedState === 'on') {
+            toggleSwitch.classList.add('on');
+            intervalContainer.classList.remove('hide');
             startWallpaperCycle();
         }
-    });
 
-    $('#WallpaperCycleSaveBtn').on('click', function () {
-        const minutes = parseInt(intervalInput.val());
+        // 间隔时间
+        intervalInput.value = savedInterval / 60000;
 
-        if (minutes <= 4) {
-            iziToast.show({
-                message: '间隔必须大于或等于 5 分钟',
-                timeout: 2000
-            });
-            return;
-        }
-
-        if (minutes > 4 && minutes <= 1440) {
-            const intervalMs = minutes * 60000;
-            localStorage.setItem('WallpaperCycleInterval', intervalMs.toString());
-
-            // 如果已经开启，重新启动定时器
-            if (isWallpaperCycleEnabled()) {
+        toggleSwitch.addEventListener('click', function () {
+            const isOn = toggleSwitch.classList.contains('on');
+            if (isOn) {
+                toggleSwitch.classList.remove('on');
+                localStorage.setItem('WallpaperCycleEnabled', 'off');
+                intervalContainer.classList.add('hide');
                 stopWallpaperCycle();
+            } else {
+                toggleSwitch.classList.add('on');
+                localStorage.setItem('WallpaperCycleEnabled', 'on');
+                intervalContainer.classList.remove('hide');
                 startWallpaperCycle();
             }
+        });
 
-            iziToast.show({
-                message: `设置成功`,
-                timeout: 2000
-            });
-        } else {
-            iziToast.show({
-                message: '请输入有效的时间',
-                timeout: 2000
-            });
-        }
-    });
-}
+        const saveBtn = document.getElementById('WallpaperCycleSaveBtn');
+        if (!saveBtn) return;
 
-// 页面加载完成后初始化
-$(function () {
+        saveBtn.addEventListener('click', function () {
+            const minutes = parseInt(intervalInput.value);
+
+            if (minutes <= 4) {
+                iziToast.show({
+                    message: '间隔必须大于或等于 5 分钟',
+                    timeout: 2000
+                });
+                return;
+            }
+
+            if (minutes <= 1440) {
+                const intervalMs = minutes * 60000;
+                localStorage.setItem('WallpaperCycleInterval', intervalMs.toString());
+
+                // 如果已经开启则重启定时器
+                if (isWallpaperCycleEnabled()) {
+                    stopWallpaperCycle();
+                    startWallpaperCycle();
+                }
+
+                iziToast.show({
+                    message: '设置成功',
+                    timeout: 2000
+                });
+            } else {
+                iziToast.show({
+                    message: '请输入有效的时间',
+                    timeout: 2000
+                });
+            }
+        });
+    }
+
+    // 注册设置
     document.addEventListener('pluginSettingsTemplateReady', function () {
         createWallpaperCycleSetting();
         initWallpaperCycle();
     });
 
     window.addEventListener('load', function () {
-        if (isWallpaperCycleEnabled()) {
-            // 等待壁纸初始化完成后再启动自动切换
-            setTimeout(() => {
-                startWallpaperCycle();
-            }, 2000);
-        }
+        if (!isWallpaperCycleEnabled()) return;
+        // 等待壁纸初始化完成
+        setTimeout(startWallpaperCycle, 2000);
     });
-});
+})();

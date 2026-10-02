@@ -1,8 +1,7 @@
 // ==Npplication==
 // @name    年份显示
 // @id    1753707484255_203d0c2d-ec66-40ac-9fa9-f55d4fe86dea
-// @version    1.0.1
-// @updateUrl    https://nfdb.nitai.us.kg/dateYear.js
+// @version    1.0.2
 // @description    用于显示年份
 // @author    Nitai
 // @time    head
@@ -21,19 +20,17 @@ function initYearInjection() {
     const dayElement = document.getElementById('day');
     if (!dayElement) return;
 
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach(mutation => {
-            if (mutation.type === 'childList') {
-                const hasYear = dayElement.innerHTML.includes('id="point"') && dayElement.innerHTML.split('id="point"').length > 3;
-                if (!hasYear) {
-                    dayElement.innerHTML = getYearHTML() + dayElement.innerHTML;
-                }
-            }
-        });
-    });
+    function ensureYear() {
+        // 用结构判断已注入的年份
+        // 避免直接读 innerHTML 造成序列化
+        if (dayElement.querySelectorAll('#point').length >= 3) return;
+        dayElement.insertAdjacentHTML('afterbegin', getYearHTML());
+    }
 
-    observer.observe(dayElement, { childList: true, subtree: true });
-    dayElement.innerHTML = getYearHTML() + dayElement.innerHTML;
+    const observer = new MutationObserver(ensureYear);
+    observer.observe(dayElement, { childList: true });
+
+    ensureYear();
 }
 
 initYearInjection();
