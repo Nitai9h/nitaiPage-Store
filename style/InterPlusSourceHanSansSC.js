@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
-// @translates    [`https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-zh-CN.js`, `https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-zh-TW.js`, `https://nfdb.nitai.us.kg/InterPlusSourceHanSansSC-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/InterPlusSourceHanSansSC-zh-CN.js`, `https://nppdb.nitai.cc/InterPlusSourceHanSansSC-zh-TW.js`, `https://nppdb.nitai.cc/InterPlusSourceHanSansSC-en-US.js`]
 // ==/Npplication==
 
 (function () {

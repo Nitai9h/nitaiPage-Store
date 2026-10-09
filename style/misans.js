@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
-// @translates    [`https://nfdb.nitai.us.kg/misans-zh-CN.js`, `https://nfdb.nitai.us.kg/misans-zh-TW.js`, `https://nfdb.nitai.us.kg/misans-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/misans-zh-CN.js`, `https://nppdb.nitai.cc/misans-zh-TW.js`, `https://nppdb.nitai.cc/misans-en-US.js`]
 // ==/Npplication==
 
 (function () {

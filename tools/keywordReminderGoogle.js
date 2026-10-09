@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/keywordReminder.svg
 // @setting    true
-// @translates    [`https://nfdb.nitai.us.kg/keywordReminderGoogle-zh-CN.js`, `https://nfdb.nitai.us.kg/keywordReminderGoogle-zh-TW.js`, `https://nfdb.nitai.us.kg/keywordReminderGoogle-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/keywordReminderGoogle-zh-CN.js`, `https://nppdb.nitai.cc/keywordReminderGoogle-zh-TW.js`, `https://nppdb.nitai.cc/keywordReminderGoogle-en-US.js`]
 // ==/Npplication==
 
 (function () {

@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
-// @translates    [`https://nfdb.nitai.us.kg/SarasaFixedSC-zh-CN.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-zh-TW.js`, `https://nfdb.nitai.us.kg/SarasaFixedSC-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/SarasaFixedSC-zh-CN.js`, `https://nppdb.nitai.cc/SarasaFixedSC-zh-TW.js`, `https://nppdb.nitai.cc/SarasaFixedSC-en-US.js`]
 // ==/Npplication==
 
 (function () {

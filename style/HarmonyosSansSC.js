@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
-// @translates    [`https://nfdb.nitai.us.kg/HarmonyosSansSC-zh-CN.js`, `https://nfdb.nitai.us.kg/HarmonyosSansSC-zh-TW.js`, `https://nfdb.nitai.us.kg/HarmonyosSansSC-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/HarmonyosSansSC-zh-CN.js`, `https://nppdb.nitai.cc/HarmonyosSansSC-zh-TW.js`, `https://nppdb.nitai.cc/HarmonyosSansSC-en-US.js`]
 // ==/Npplication==
 
 (function () {

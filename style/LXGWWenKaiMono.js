@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/font.svg
 // @setting   true
-// @translates    [`https://nfdb.nitai.us.kg/LXGWWenKaiMono-zh-CN.js`, `https://nfdb.nitai.us.kg/LXGWWenKaiMono-zh-TW.js`, `https://nfdb.nitai.us.kg/LXGWWenKaiMono-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/LXGWWenKaiMono-zh-CN.js`, `https://nppdb.nitai.cc/LXGWWenKaiMono-zh-TW.js`, `https://nppdb.nitai.cc/LXGWWenKaiMono-en-US.js`]
 // ==/Npplication==
 
 (function () {

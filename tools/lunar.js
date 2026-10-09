@@ -15,7 +15,7 @@ let lunarFontSizeSlider, lunarFontThickSlider, lunarOpacitySlider;
 
 // 加载 lunar 库
 const lunarScript = document.createElement('script');
-lunarScript.src = 'https://nfdb.nitai.us.kg/lunar.min.js';
+lunarScript.src = 'https://nppdb.nitai.cc/lunar.min.js';
 lunarScript.onload = () => {
     lunarLoaded = true;
     addLunarStyles();

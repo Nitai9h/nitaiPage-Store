@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/dateYear.svg
 // @screen    [`https://nitai-images.pages.dev/nitaiPage/store/dateYear_screen.webp`]
-// @translates    [`https://nfdb.nitai.us.kg/dateYear-zh-CN.js`, `https://nfdb.nitai.us.kg/dateYear-zh-TW.js`, `https://nfdb.nitai.us.kg/dateYear-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/dateYear-zh-CN.js`, `https://nppdb.nitai.cc/dateYear-zh-TW.js`, `https://nppdb.nitai.cc/dateYear-en-US.js`]
 // ==/Npplication==
 
 function getYearHTML() {

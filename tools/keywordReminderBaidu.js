@@ -7,7 +7,7 @@
 // @time    head
 // @icon    https://nitai-images.pages.dev/nitaiPage/keywordReminder.svg
 // @setting    true
-// @translates    [`https://nfdb.nitai.us.kg/keywordReminderBaidu-zh-CN.js`, `https://nfdb.nitai.us.kg/keywordReminderBaidu-zh-TW.js`, `https://nfdb.nitai.us.kg/keywordReminderBaidu-en-US.js`]
+// @translates    [`https://nppdb.nitai.cc/keywordReminderBaidu-zh-CN.js`, `https://nppdb.nitai.cc/keywordReminderBaidu-zh-TW.js`, `https://nppdb.nitai.cc/keywordReminderBaidu-en-US.js`]
 // ==/Npplication==
 
 (function () {
