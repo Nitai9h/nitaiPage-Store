@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    搜索建议-必应源
 // @id    1754203017843_73f7c9b5-d5d1-4b86-a1a6-dd46729b10a0
-// @version    1.0.8
+// @version    1.0.9
 // @description    用于展示搜索建议
 // @author    Nitai
 // @time    head
@@ -99,9 +99,15 @@
         const container = getContainer();
         if (!container) return null;
 
-        const sou = document.querySelector('.sou');
+        // 定位到搜索框下方
+        const pill = document.querySelector('.all-search');
         container.innerHTML = '';
-        if (sou) container.style.width = sou.getBoundingClientRect().width + 'px';
+        if (pill) {
+            const rect = pill.getBoundingClientRect();
+            container.style.top = (rect.bottom + 8) + 'px';
+            container.style.left = rect.left + 'px';
+            container.style.width = rect.width + 'px';
+        }
         container.style.display = 'block';
         return container;
     }
@@ -296,10 +302,7 @@
         const style = document.createElement('style');
         style.textContent = [
             '#keywords {',
-            '    position: absolute;',
-            '    left: 0;',
-            '    right: 0;',
-            '    top: calc(100% + 8px);',
+            '    position: fixed;',
             '    font-size: small;',
             '    color: var(--main-text-color);',
             '    background-color: var(--main-background-color);',
@@ -328,14 +331,17 @@
         ].join('\n');
         document.head.appendChild(style);
 
-        // 容器挂在搜索框内，相对搜索框定位
-        sou.style.position = 'relative';
         const container = document.createElement('div');
         container.id = 'keywords';
         container.addEventListener('click', onContainerClick);
-        sou.appendChild(container);
+        container.addEventListener('mousedown', function (event) { event.preventDefault(); });
+        document.body.appendChild(container);
 
         input.addEventListener('input', onInput);
+        // 失焦
+        input.addEventListener('blur', function () {
+            setTimeout(hideContainer, 140);
+        });
     }
 
     // 等待搜索框渲染

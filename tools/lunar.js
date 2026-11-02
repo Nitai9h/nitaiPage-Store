@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    农历显示
 // @id    1753891006224_a75c053a-e545-4679-9316-cee02e3fc2e9
-// @version    1.2.7
+// @version    1.2.8
 // @description    显示农历日期
 // @author    Nitai
 // @time    head
@@ -331,9 +331,10 @@ function genereateLunarSettings() {
     }
 }
 
-// 等待插件设置创建完成后再初始化设置
+// 初始化
+document.head.appendChild(lunarScript);
+
 document.addEventListener('pluginSettingsTemplateReady', function () {
-    document.head.appendChild(lunarScript);
     genereateLunarSettings();
     initLunarSliders();
     setupSliderListeners();

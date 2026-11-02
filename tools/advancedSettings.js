@@ -9,7 +9,7 @@
 // @icon    https://nitai-images.pages.dev/nitaiPage/advancedSettings.svg
 // @forced    true
 // @setting    true
-// @screen    [`https://nitai-images.pages.dev/nitaiPage/advancedSettings_screen.webp`]
+// @screen    [`https://nitai-images.pages.dev/nitaiPage/store/advancedSettings_screen.webp`]
 // ==/Npplication==
 
 // 对外暴露：window.nppAdvancedSettings

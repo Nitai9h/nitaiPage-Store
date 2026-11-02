@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    简体中文
 // @id    1754240200155_61322c74-6fe7-436f-a824-e94e594bfa17
-// @version    1.0.7
+// @version    1.0.8
 // @type    translate
 // @translates     zh-CN
 // @description    设置全局中文
@@ -262,6 +262,13 @@
         "@npplication:loading-text": "加载中...",
         "@npplication:loading-success": "加载完成",
         "@npplication:loading-fail": "加载失败",
+        "@npplication:manual-install": "从文件安装插件",
+        "@npplication:manual-install-confirm": "确定安装？",
+        "@npplication:manual-install-button": "选择",
+        "@npplication:manual-install-invalid": "插件无效",
+        "@npplication:manual-install-core": "核心插件不能安装",
+        "@npplication:manual-install-success": "安装成功，刷新后生效",
+        "@npplication:manual-install-fail": "安装失败",
         "@npplication:no-description": "未提供",
         "@npplication:no-author": "未知",
         "@npplication:no-version": "未知",

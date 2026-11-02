@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    秒数显示
 // @id    1753629993099_c29f24d8-3308-4367-a961-dc53a92272ae
-// @version    1.3
+// @version    1.4
 // @description    用于显示秒数
 // @author    Nitai
 // @time    head
@@ -16,6 +16,16 @@ function getSecondsHTML() {
     return '<span id="point">:</span>' + wrapTimeDigits(s.toString());
 }
 
+function syncColonBlink(timeText) {
+    const colons = timeText.querySelectorAll('#point');
+    if (colons.length < 2) return;
+
+    colons.forEach(function (el) { el.style.animation = 'none'; });
+    // 强制重绘
+    void timeText.offsetWidth;
+    colons.forEach(function (el) { el.style.animation = ''; });
+}
+
 function initSecondsInjection() {
     const timeText = document.getElementById('time_text');
     if (!timeText) return;
@@ -25,6 +35,7 @@ function initSecondsInjection() {
         // 避免直接读 innerHTML 造成序列化
         if (timeText.querySelectorAll('#point').length >= 2) return;
         timeText.insertAdjacentHTML('beforeend', getSecondsHTML());
+        syncColonBlink(timeText);
     }
 
     const observer = new MutationObserver(ensureSeconds);

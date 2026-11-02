@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    繁體中文
 // @id    1771170082753_1200b0ce-dda6-4008-bdae-bee1d49642f6
-// @version    1.0.7
+// @version    1.0.8
 // @type    translate
 // @translates     zh-TW
 // @description    设置全局繁體中文
@@ -262,6 +262,13 @@
         "@npplication:loading-text": "加載中...",
         "@npplication:loading-success": "加載完成",
         "@npplication:loading-fail": "加載失敗",
+        "@npplication:manual-install": "從檔案安裝外掛",
+        "@npplication:manual-install-confirm": "確定安裝？",
+        "@npplication:manual-install-button": "選擇",
+        "@npplication:manual-install-invalid": "外掛無效",
+        "@npplication:manual-install-core": "核心外掛不能安裝",
+        "@npplication:manual-install-success": "安裝成功，重新整理後生效",
+        "@npplication:manual-install-fail": "安裝失敗",
         "@npplication:no-description": "未提供",
         "@npplication:no-author": "未知",
         "@npplication:no-version": "未知",

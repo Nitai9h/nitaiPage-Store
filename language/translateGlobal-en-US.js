@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    English(US)
 // @id    1771170114075_7db02f1b-4106-427c-a9d7-0128f4e63870
-// @version    1.0.7
+// @version    1.0.8
 // @type    translate
 // @translates     en-US
 // @description    Set global English(US)
@@ -262,6 +262,13 @@
         "@npplication:loading-text": "Loading...",
         "@npplication:loading-success": "Loading complete",
         "@npplication:loading-fail": "Loading failed",
+        "@npplication:manual-install": "Install plugin from file",
+        "@npplication:manual-install-confirm": "Install?",
+        "@npplication:manual-install-button": "Choose",
+        "@npplication:manual-install-invalid": "Invalid plugin file",
+        "@npplication:manual-install-core": "Core plugins cannot be installed",
+        "@npplication:manual-install-success": "Installed. Refresh to take effect",
+        "@npplication:manual-install-fail": "Install failed",
         "@npplication:no-description": "No description",
         "@npplication:no-author": "Unknown",
         "@npplication:no-version": "Unknown",
