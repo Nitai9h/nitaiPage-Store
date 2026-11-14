@@ -1,7 +1,7 @@
 // ==Npplication==
 // @name    捷径坞
 // @id    1791125977075_73ec46be-a4d0-4d6c-8f9f-d9d60443e8f8
-// @version    1.0.0
+// @version    1.0.1
 // @description    提供完整的捷径体验
 // @author    Nitai
 // @time    body
@@ -218,6 +218,20 @@
 
     function idbPut(dbName, storeName, record) {
         return idbOpen(dbName).then(function (db) {
+            if (db.objectStoreNames.contains(storeName)) return db;
+            const nextVersion = db.version + 1;
+            db.close();
+            return new Promise(function (resolve, reject) {
+                const upgrade = indexedDB.open(dbName, nextVersion);
+                upgrade.onupgradeneeded = function () {
+                    if (!upgrade.result.objectStoreNames.contains(storeName)) {
+                        upgrade.result.createObjectStore(storeName, { keyPath: 'key' });
+                    }
+                };
+                upgrade.onsuccess = function () { resolve(upgrade.result); };
+                upgrade.onerror = function () { reject(upgrade.error || new Error('idb upgrade failed')); };
+            });
+        }).then(function (db) {
             return new Promise(function (resolve, reject) {
                 const tx = db.transaction(storeName, 'readwrite');
                 tx.objectStore(storeName).put(record);
@@ -236,7 +250,16 @@
         }
     }
 
+    // 主程序提供的显式插件存储 API：内部自动路由本地 IDB / 自建 Server
+    function nppDbApi() {
+        const api = window.npp;
+        if (api && typeof api.dbGet === 'function' && typeof api.dbSet === 'function' && typeof api.dbRemove === 'function') return api;
+        return null;
+    }
+
     async function storeDelete(key) {
+        const api = nppDbApi();
+        if (api) { await api.dbRemove(NID, key); return; }
         if (isRemoteMode()) {
             await remoteRequest('/db/' + seg(NPP_IDB) + '/' + seg(NID) + '/' + seg(key), { method: 'DELETE' });
             return;
@@ -245,6 +268,8 @@
     }
 
     async function storeGet(key) {
+        const api = nppDbApi();
+        if (api) return await api.dbGet(NID, key);
         if (isRemoteMode()) {
             try {
                 const payload = await remoteRequest('/db/' + seg(NPP_IDB) + '/' + seg(NID) + '/' + seg(key));
@@ -259,6 +284,8 @@
     }
 
     async function storePut(key, value) {
+        const api = nppDbApi();
+        if (api) { await api.dbSet(NID, key, value); return; }
         if (isRemoteMode()) {
             await remoteRequest('/db/' + seg(NPP_IDB) + '/' + seg(NID) + '/' + seg(key), {
                 method: 'PUT',
